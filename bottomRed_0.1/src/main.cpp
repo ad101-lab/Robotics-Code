@@ -83,7 +83,8 @@ void turnLeft(int degree){
   rightBack.spinFor(tright, vex::rotationUnits::deg, false);
 }
 
-void cubeRampVertical (bool degree){
+void cubeRampVertical (bool degree, int speed){
+  cubeRamp.setVelocity(speed, rpm);
   if(degree == true){
     cubeRamp.spin(forward);
     waitUntil(rampBumperForward.pressing() == true);
@@ -93,6 +94,7 @@ void cubeRampVertical (bool degree){
     waitUntil(rampBumper.pressing() == true);
     cubeRamp.stop();
   }
+  cubeRamp.setVelocity(100, percent);
 
 }
 
@@ -104,7 +106,7 @@ void intake (int speed){
 }
 
 void stack(){
-  cubeRampVertical(true);
+  cubeRampVertical(true, 50);
   waitUntil(cubeRamp.isDone());
   waitUntil(leftFWD.isDone());
   waitUntil(rightFWD.isDone());
@@ -119,7 +121,7 @@ void stack(){
   intake(-70);
   wait(0.5, seconds);
   moveBackwards(40, 50);
-  cubeRampVertical(false);
+  cubeRampVertical(false, 50);
   intake(0);
 }
 
@@ -209,9 +211,9 @@ void usercontrol(void) {
     } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {
       cubeRampValue = -75;
     } else if (Controller2.ButtonUp.pressing()) {
-      cubeRampVertical(true);
+      cubeRampVertical(true, 55);
     } else if (Controller2.ButtonDown.pressing()){
-      cubeRampVertical(false);
+      cubeRampVertical(false, 55);
     } else {
       cubeRampValue = 0;
     }
