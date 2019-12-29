@@ -157,8 +157,6 @@ void motorHold(bool holding){
 
 void pre_auton(void) {
    
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
 }
 
 /*-----------------------------------------------------------alex is a nerd----------------*/
@@ -173,8 +171,15 @@ void pre_auton(void) {
 
 void autonomous(void) {
   intake(200);
+  wait(1, seconds);
   moveForward(152, 40);
+  motorWait();
+  intake(0);
   turnLeft(90);
+  motorWait();
+  moveForward(33, 50);
+  motorWait();
+  stack();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -188,9 +193,6 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  // User control code here, inside the loop
-  //intakeLeft.setVelocity(200, rpm);
-  //intakeRight.setVelocity(200, rpm);
   while (1) {
     cubeRamp.setStopping(hold);
     intakeLeft.setStopping(hold);
@@ -206,6 +208,10 @@ void usercontrol(void) {
       cubeRampValue = 75;
     } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {
       cubeRampValue = -75;
+    } else if (Controller2.ButtonUp.pressing()) {
+      cubeRampVertical(true);
+    } else if (Controller2.ButtonDown.pressing()){
+      cubeRampVertical(false);
     } else {
       cubeRampValue = 0;
     }

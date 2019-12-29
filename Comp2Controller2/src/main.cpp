@@ -190,9 +190,6 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  // User control code here, inside the loop
-  //intakeLeft.setVelocity(200, rpm);
-  //intakeRight.setVelocity(200, rpm);
   while (1) {
     cubeRamp.setStopping(hold);
     intakeLeft.setStopping(hold);
@@ -208,6 +205,10 @@ void usercontrol(void) {
       cubeRampValue = 75;
     } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {
       cubeRampValue = -75;
+    } else if (Controller2.ButtonUp.pressing()) {
+      cubeRampVertical(true);
+    } else if (Controller2.ButtonDown.pressing()){
+      cubeRampVertical(false);
     } else {
       cubeRampValue = 0;
     }
