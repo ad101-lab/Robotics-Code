@@ -107,14 +107,9 @@ void intake (int speed){
 
 void stack(){
   cubeRampVertical(true, 50);
-  waitUntil(cubeRamp.isDone());
-  waitUntil(leftFWD.isDone());
-  waitUntil(rightFWD.isDone());
-  waitUntil(leftBack.isDone());
-  waitUntil(rightBack.isDone());
-  intake(-70);
+  intake(-100);
   wait(0.5, seconds);
-  moveBackwards(40, 50);
+  moveBackwards(40, 60);
   cubeRampVertical(false, 50);
   intake(0);
 }
