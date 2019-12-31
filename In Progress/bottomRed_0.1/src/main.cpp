@@ -106,11 +106,11 @@ void intake (int speed){
 }
 
 void stack(){
-  cubeRampVertical(true, 50);
+  cubeRampVertical(true, 70);
   intake(-100);
-  wait(0.5, seconds);
+  wait(0.3, seconds);
   moveBackwards(40, 60);
-  cubeRampVertical(false, 50);
+  cubeRampVertical(false, 100);
   intake(0);
 }
 

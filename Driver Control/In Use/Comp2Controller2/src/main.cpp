@@ -106,11 +106,11 @@ void intake (int speed){
 }
 
 void stack(){
-  cubeRampVertical(true, 50);
+  cubeRampVertical(true, 70);
   intake(-100);
-  wait(0.5, seconds);
+  wait(0.3, seconds);
   moveBackwards(40, 60);
-  cubeRampVertical(false, 50);
+  cubeRampVertical(false, 100);
   intake(0);
 }
 
@@ -193,9 +193,9 @@ void usercontrol(void) {
     //intakeRight.spin(forward, Controller2.Axis2.position(), vex::velocityUnits::pct);
     //cubeRamp.spin(forward, Controller2.Axis3.position(), vex::velocityUnits::pct);
     if (Controller2.ButtonL1.pressing() and !(rampBumperForward.pressing())){
-      cubeRampValue = 75;
+      cubeRampValue = 85;
     } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {
-      cubeRampValue = -75;
+      cubeRampValue = -100;
     } else if (Controller2.ButtonUp.pressing()) {
       cubeRampVertical(true, 55);
     } else if (Controller2.ButtonDown.pressing()){
