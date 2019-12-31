@@ -99,9 +99,9 @@ void intake (int speed){
 
 void stack(){
   cubeRampVertical(true, 70);//Move the cube ramp up
-  intake(-100);//Prepares to move away
-  wait(0.3, seconds);//waits
-  moveBackwards(40, 60);//Back away
+  intake(-150);//Prepares to move away
+  wait(0.1, seconds);//waits
+  moveBackwards(40, 70);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
 }
