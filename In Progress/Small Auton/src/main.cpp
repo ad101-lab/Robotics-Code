@@ -139,9 +139,15 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
+  motorHold(true);
   intake(200);//Puts out the intake and the Beging of Auton
-  wait(2, seconds);
+  wait(1, seconds);
+  moveForward(120, 40);
+  motorWait();
   intake(0);
+  moveForward(30, 40);
+  motorWait();
+  stack();
 }
 
 void usercontrol(void) {//User Control

@@ -1,8 +1,9 @@
 #include "vex.h"
+
 using namespace vex;
+
 competition Competition;
-#include "vex.h"
-using namespace vex;
+
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
@@ -15,6 +16,7 @@ motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
 motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(partner);
+
 int cubeRampValue;//Sets up integers to be used later
 int intakeValue;
 int cms;
