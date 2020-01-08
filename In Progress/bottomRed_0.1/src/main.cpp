@@ -7,13 +7,13 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT5, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT3, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT4, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT7, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT8, ratio18_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT11, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT6, ratio18_1, false);//Left intake
+motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT10, ratio18_1, false);//Left FWD
+motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
+motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
+motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
+motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(partner);
 
@@ -140,6 +140,10 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
+  moveForward(30, 100);
+  motorWait();
+  moveBackwards(30, 100);
+  motorWait();
   intake(200);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
   moveForward(152, 40);//picks up the cubes
