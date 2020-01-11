@@ -58,8 +58,8 @@ void moveBackwards(int cm, int speed){
 }
 
 void turnRight(int degree){
-  tright = degree * (340/90) * -1;//Sets the transvertion factors
-  tleft  = degree * (340/90);
+  tright = degree * (345/90) * -1;//Sets the transvertion factors
+  tleft  = degree * (345/90);
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//Spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
@@ -139,15 +139,7 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  motorHold(true);
-  intake(200);//Puts out the intake and the Beging of Auton
-  wait(1, seconds);
-  moveForward(120, 40);
-  motorWait();
-  intake(0);
-  moveForward(30, 40);
-  motorWait();
-  stack();
+  turnRight(360);
 }
 
 void usercontrol(void) {//User Control

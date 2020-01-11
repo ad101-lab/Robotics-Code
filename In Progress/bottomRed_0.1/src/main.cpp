@@ -8,14 +8,14 @@ brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
 motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT10, ratio18_1, false);//Left FWD
+motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
 motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
 motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
 motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
 motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
 motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
 controller Controller1        = controller(primary);//Sets up controllers
-controller Controller2        = controller(partner);
+controller Controller2        = controller(primary);
 
 int cubeRampValue;//Sets up integers to be used later
 int intakeValue;
@@ -60,19 +60,35 @@ void moveBackwards(int cm, int speed){
 void turnRight(int degree){
   tright = degree * (340/90) * -1;//Sets the transvertion factors
   tleft  = degree * (340/90);
+  leftFWD.setVelocity(100, rpm);
+  leftBack.setVelocity(100, rpm);
+  rightFWD.setVelocity(100, rpm);
+  rightBack.setVelocity(100, rpm);
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//Spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
   rightBack.spinFor(tright, vex::rotationUnits::deg, false);
+  leftFWD.setVelocity(200, rpm);
+  leftBack.setVelocity(200, rpm);
+  rightFWD.setVelocity(200, rpm);
+  rightBack.setVelocity(200, rpm);
 }
 
 void turnLeft(int degree){
   tright = degree * (335/90);//Sets the transvertion factors
   tleft  = degree * (335/90) * -1;
+  leftFWD.setVelocity(100, rpm);
+  leftBack.setVelocity(100, rpm);
+  rightFWD.setVelocity(100, rpm);
+  rightBack.setVelocity(100, rpm);
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
   rightBack.spinFor(tright, vex::rotationUnits::deg, false);
+  leftFWD.setVelocity(200, rpm);
+  leftBack.setVelocity(200, rpm);
+  rightFWD.setVelocity(200, rpm);
+  rightBack.setVelocity(200, rpm);
 }
 
 void cubeRampVertical (bool degree, int speed){
@@ -140,20 +156,20 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  moveForward(30, 100);
-  motorWait();
-  moveBackwards(30, 100);
-  motorWait();
+  motorHold(false);
   intake(200);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
-  moveForward(152, 40);//picks up the cubes
+  moveForward(110, 20);//picks up the cubes
   motorWait();//waits until it is done
-  intake(50);//slows the intake
-  turnLeft(90);//Turns Left
-  motorWait();//Waits until the task is done
-  moveForward(33, 50);//moves forward
-  motorWait();//waits until it is doe
-  stack();//Stacks
+  intake(35);//slows the intake
+  moveBackwards(60, 50);
+  motorWait();
+  turnLeft(180);
+  motorWait();
+  moveForward(55, 30);
+  motorWait();
+  intake(0);
+  stack();
 }
 
 void usercontrol(void) {//User Control
