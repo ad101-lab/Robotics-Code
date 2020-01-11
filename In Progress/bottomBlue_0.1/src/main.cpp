@@ -164,7 +164,7 @@ void autonomous(void) {
   intake(25);//slows the intake
   moveBackwards(50, 50);
   wait(1, seconds);
-  turnLeft(180);
+  turnRight(180);
   wait(1,seconds);
   moveForward(65, 30);
   wait(2, seconds);
