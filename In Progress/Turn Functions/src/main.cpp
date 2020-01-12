@@ -153,6 +153,8 @@ void pre_auton(void) {
 
 void autonomous(void) {
   turnLeft(90, 50);
+  wait(1, seconds);
+  turnRight(90, 50);
 }
 
 void usercontrol(void) {//User Control
