@@ -156,7 +156,7 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  motorHold(true);
+  motorHold(false);
   intake(200);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
   moveForward(110, 20);//picks up the cubes
