@@ -7,7 +7,7 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-gyro smartGyro           = gyro(Brain.ThreeWirePort.F);
+inertial Gyro            = inertial(PORT15);
 motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
 motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
 motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
@@ -147,8 +147,7 @@ void motorHold(bool holding){
 }
 
 void pre_auton(void) {
-  smartGyro.calibrate();
-  
+  Gyro.calibrate();
 }
 
 void autonomous(void) {
