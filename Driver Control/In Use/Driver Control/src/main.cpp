@@ -5,15 +5,15 @@ using namespace vex;
 competition Competition;
 
 brain Brain;
-bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
-bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
+bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers (THREEWIREPORT H)
+bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);//(THREEWIREPORT G)
+motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD) (PORT 20)
+motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD (PORT9)
+motor rightBack = motor(PORT11, ratio18_1, true);//Right Back (PORT 11)
+motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back (PORT1)
+motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global (PORT 6)
+motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global (PORT 5)
+motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake (PORT 7)
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(primary);
 
@@ -152,24 +152,14 @@ void motorHold(bool holding){
 }
 
 void pre_auton(void) {
- motorHold(true);  
+   
 }
 
 void autonomous(void) {
-  motorHold(true);
+  motorHold(false);
   intake(200);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
-  moveForward(110, 20);//picks up the cubes
-  wait(5, seconds);//waits until it is done
-  intake(25);//slows the intake
-  moveBackwards(48, 50);
-  wait(1, seconds);
-  turnRight(180);
-  wait(1,seconds);
-  moveForward(65, 30);
-  wait(2, seconds);
   intake(0);
-  stack();
 }
 
 void usercontrol(void) {//User Control
@@ -203,7 +193,18 @@ void usercontrol(void) {//User Control
       stack();//Stacks
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
-    }
+    } 
+    if(((Controller1.Axis3.value() >= 80) and (Controller1.Axis2.value() <= -80)) or ((Controller1.Axis3.value() <= -80) and (Controller1.Axis2.value() >= 80))) {
+      leftFWD.setVelocity(85, rpm);
+      leftBack.setVelocity(85, rpm);
+      rightFWD.setVelocity(85, rpm);
+      rightBack.setVelocity(85, rpm);
+    } else {
+      leftFWD.setVelocity(200, rpm);
+      leftBack.setVelocity(200, rpm);
+      rightFWD.setVelocity(200, rpm);
+      rightBack.setVelocity(200, rpm);
+    } 
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     wait(20, msec); // Sleep the task for a short amount of time to
