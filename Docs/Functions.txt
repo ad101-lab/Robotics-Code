@@ -1,0 +1,10 @@
+﻿List of the functions and their uses
+* moveForward(Centimeters, Speed(percent))
+* moveBackward(Centimeters, Speed(percent))
+* turnRight(Degrees, speed(percent))
+* turnLeft(Degrees, speed(percent))
+* cubeRampVertical(bool (up = true, down = false), speed)
+* intake(RPM)
+* stack() stacks the cubes right in front of the robot
+* motorWait() waits until the motors are done with their motions
+* motorHold() puts the motors into the hold position
