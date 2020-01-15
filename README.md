@@ -6,7 +6,7 @@ Written to fit the tournament 2019-2020 Vex robotics competion [**Tower takeover
 
 Info on the game tower takeover can be found [**HERE**](https://www.vexrobotics.com/vexedr/competition/vrc-current-game)
 
-The main goal of tower takeover is to stack 5.5 inch cubes in specified corner zones or in towers to make the point value of that color go up by 1 point plus the base of 1.
+The main goal of tower takeover is to stack 5.5 inch cubes in specified scoring zones or in towers to make the point value of that color go up by 1 point plus the base of 1.
 
 VEXcode info [**HERE**](https://www.vexrobotics.com/vexcode-text)
 
