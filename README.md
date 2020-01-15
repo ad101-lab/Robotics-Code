@@ -1,6 +1,6 @@
 **Robotics Code**
 
-Includes all of Team Skynet 2019-2020 code written in VEXcode
+Includes all of Team Skynet(**6047S**) 2019-2020 code written in VEXcode
 
 VEXcode info [HERE](https://www.vexrobotics.com/vexcode-text)
 
