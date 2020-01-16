@@ -207,6 +207,13 @@ void usercontrol(void) {//User Control
     } 
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
+    Controller1.Screen.clearScreen();
+    Controller1.Screen.print("R FWD", leftFWD.velocity(rpm));
+    Controller1.Screen.print("L FWD", leftFWD.velocity(rpm));
+    Controller1.Screen.print("R Back", leftFWD.velocity(rpm));
+    Controller1.Screen.print("L Back", leftFWD.velocity(rpm));
+    Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
+    
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }
