@@ -194,7 +194,7 @@ void usercontrol(void) {//User Control
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     } 
-    if(((Controller1.Axis3.value() >= 80) and (Controller1.Axis2.value() <= -80)) or ((Controller1.Axis3.value() <= -80) and (Controller1.Axis2.value() >= 80))) {
+    if(((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))) {
       leftFWD.setVelocity(85, rpm);
       leftBack.setVelocity(85, rpm);
       rightFWD.setVelocity(85, rpm);
