@@ -152,12 +152,12 @@ void motorHold(bool holding){
 }
 
 void pre_auton(void) {
-   
+   motorHold(true);
 }
 
 void autonomous(void) {
-  motorHold(false);
-  intake(200);//Sets the intake to flip out cube ramp
+  //motorHold(false);
+  intake(250);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
   intake(0);
 }
@@ -208,10 +208,10 @@ void usercontrol(void) {//User Control
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     Controller1.Screen.clearScreen();
-    Controller1.Screen.print("R FWD", leftFWD.velocity(rpm));
+    Controller1.Screen.print("R FWD", rightFWD.velocity(rpm));
     Controller1.Screen.print("L FWD", leftFWD.velocity(rpm));
-    Controller1.Screen.print("R Back", leftFWD.velocity(rpm));
-    Controller1.Screen.print("L Back", leftFWD.velocity(rpm));
+    Controller1.Screen.print("R Back", rightBack.velocity(rpm));
+    Controller1.Screen.print("L Back", leftBack.velocity(rpm));
     Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
     
     wait(20, msec); // Sleep the task for a short amount of time to

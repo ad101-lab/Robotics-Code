@@ -156,8 +156,8 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  motorHold(true);
-  intake(200);//Sets the intake to flip out cube ramp
+  //motorHold(true);
+  intake(250);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
   moveForward(110, 20);//picks up the cubes
   wait(5, seconds);//waits until it is done
@@ -174,7 +174,7 @@ void autonomous(void) {
 
 void usercontrol(void) {//User Control
   while (1) {
-    motorHold(true);//Puts the motors into hold mode
+    //motorHold(true);//Puts the motors into hold mode
     rightFWD.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);//Tank Drive controls
     leftFWD.spin(forward, Controller1.Axis3.position() , vex::velocityUnits::pct);
     rightBack.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);
