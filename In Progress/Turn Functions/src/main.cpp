@@ -7,7 +7,7 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-inertial Gyro            = inertial(PORT15);
+inertial Inertial           = inertial(PORT15);
 motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
 motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
 motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
@@ -59,31 +59,31 @@ void moveBackwards(int cm, int speed){
 }
 
 void turnRight(int degree, int speed){
-  smartGyro.setHeading(0, degrees);
+  Inertial.setHeading(0, degrees);
   leftFWD.spin(forward, speed, rpm);
   leftBack.spin(forward, speed, rpm);
   rightFWD.spin(reverse, speed, rpm);
   rightBack.spin(reverse, speed, rpm);
-  waitUntil(smartGyro.rotation(degrees));
+  waitUntil(Inertial.heading(degrees));
   leftFWD.stop();
   leftBack.stop();
   rightFWD.stop();
   rightBack.stop();
-  smartGyro.setHeading(0, degrees);
+  Inertial.setHeading(0, degrees);
 }
 
 void turnLeft(int degree, int speed){
-  smartGyro.setHeading(0, degrees);
+  Inertial.setHeading(0, degrees);
   leftFWD.spin(reverse, speed, rpm);
   leftBack.spin(reverse, speed, rpm);
   rightFWD.spin(forward, speed, rpm);
   rightBack.spin(forward, speed, rpm);
-  waitUntil(smartGyro.rotation(degrees));
+  waitUntil(Inertial.heading(degrees));
   leftFWD.stop();
   leftBack.stop();
   rightFWD.stop();
   rightBack.stop();
-  smartGyro.setHeading(0, degrees);
+  Inertial.setHeading(0, degrees);
 }
 
 void cubeRampVertical (bool degree, int speed){
@@ -147,7 +147,7 @@ void motorHold(bool holding){
 }
 
 void pre_auton(void) {
-  Gyro.calibrate();
+  Inertial.calibrate();
 }
 
 void autonomous(void) {
