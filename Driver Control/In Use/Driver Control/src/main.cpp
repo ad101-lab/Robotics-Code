@@ -22,6 +22,7 @@ int intakeValue;
 int cms;
 int tright;
 int tleft;
+int baseSpeed;
 
 void moveForward(int cm, int speed){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
@@ -195,16 +196,11 @@ void usercontrol(void) {//User Control
       intakeValue = 0;//sets cube ramp to -100 RPM
     } 
     if(((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))) {
-      leftFWD.setVelocity(85, rpm);
-      leftBack.setVelocity(85, rpm);
-      rightFWD.setVelocity(85, rpm);
-      rightBack.setVelocity(85, rpm);
+      baseSpeed = 85;
     } else {
-      leftFWD.setVelocity(200, rpm);
-      leftBack.setVelocity(200, rpm);
-      rightFWD.setVelocity(200, rpm);
-      rightBack.setVelocity(200, rpm);
+      baseSpeed = 250;
     } 
+    
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     Controller1.Screen.clearScreen();
