@@ -200,16 +200,17 @@ void usercontrol(void) {//User Control
     } else {
       baseSpeed = 250;
     } 
-    
+
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     Controller1.Screen.clearScreen();
-    Controller1.Screen.print("R FWD", rightFWD.velocity(rpm));
-    Controller1.Screen.print("L FWD", leftFWD.velocity(rpm));
-    Controller1.Screen.print("R Back", rightBack.velocity(rpm));
-    Controller1.Screen.print("L Back", leftBack.velocity(rpm));
+    Controller1.Screen.print("R", (rightFWD.velocity(rpm)+rightBack.velocity(rpm)/2));
+    Controller1.Screen.print("L", (leftFWD.velocity(rpm)+leftBack.velocity(rpm)/2));
     Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
-    
+    leftFWD.setVelocity(baseSpeed, rpm);
+    leftBack.setVelocity(baseSpeed, rpm);
+    rightFWD.setVelocity(baseSpeed, rpm);
+    rightBack.setVelocity(baseSpeed, rpm);
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }
