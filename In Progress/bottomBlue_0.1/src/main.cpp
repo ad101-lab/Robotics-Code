@@ -5,15 +5,15 @@ using namespace vex;
 competition Competition;
 
 brain Brain;
-bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
-bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
+bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers (THREEWIREPORT H)
+bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);//(THREEWIREPORT G)
+motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD) (PORT 20)
+motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD (PORT9)
+motor rightBack = motor(PORT11, ratio18_1, true);//Right Back (PORT 11)
+motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back (PORT1)
+motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global (PORT 6)
+motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global (PORT 5)
+motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake (PORT 7)
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(primary);
 
@@ -22,6 +22,7 @@ int intakeValue;
 int cms;
 int tright;
 int tleft;
+int baseSpeed;
 
 void moveForward(int cm, int speed){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
@@ -114,6 +115,8 @@ void intake (int speed){
 }
 
 void stack(){
+  wait(0.3 ,seconds);
+  moveForward(1, 0);
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
@@ -151,6 +154,16 @@ void motorHold(bool holding){
  }
 }
 
+void motorSpeed(int velocity){
+  intakeRight.setVelocity(velocity, percent);
+  intakeLeft.setVelocity(velocity, percent);
+  cubeRamp.setVelocity(velocity, percent);
+  leftFWD.setVelocity(velocity, percent);
+  rightFWD.setVelocity(velocity, percent);
+  leftBack.setVelocity(velocity, percent);
+  rightBack.setVelocity(velocity,percent);
+  
+}
 void pre_auton(void) {
  motorHold(true);  
 }
@@ -174,7 +187,7 @@ void autonomous(void) {
 
 void usercontrol(void) {//User Control
   while (1) {
-    //motorHold(true);//Puts the motors into hold mode
+    motorHold(true);//Puts the motors into hold mode
     rightFWD.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);//Tank Drive controls
     leftFWD.spin(forward, Controller1.Axis3.position() , vex::velocityUnits::pct);
     rightBack.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);
@@ -201,11 +214,24 @@ void usercontrol(void) {//User Control
       intakeValue = 45;//sets cube ramp to 45 RPM
     } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
       stack();//Stacks
+    } else if (Controller2.ButtonR1.pressing() and Controller2.ButtonR2.pressing()){
+      baseSpeed = 100;
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
-    }
+    } 
+    if(((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))) {
+      baseSpeed = 70;
+    } else {
+      baseSpeed = 250;
+    } 
+
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
+    Controller1.Screen.clearScreen();
+    Controller1.Screen.print("R", (rightFWD.velocity(rpm)+rightBack.velocity(rpm)/2));
+    Controller1.Screen.print("L", (leftFWD.velocity(rpm)+leftBack.velocity(rpm)/2));
+    Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
+    motorSpeed(baseSpeed);
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }
