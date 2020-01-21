@@ -210,7 +210,7 @@ void usercontrol(void) {//User Control
       intakeValue = 0;//sets cube ramp to -100 RPM
     } 
     if(((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))) {
-      baseSpeed = 85;
+      baseSpeed = 70;
     } else {
       baseSpeed = 250;
     } 
