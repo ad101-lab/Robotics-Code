@@ -115,6 +115,8 @@ void intake (int speed){
 }
 
 void stack(){
+  wait(0.3 ,seconds);
+  moveForward(1, 0);
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
@@ -152,6 +154,16 @@ void motorHold(bool holding){
  }
 }
 
+void motorSpeed(int velocity){
+  intakeRight.setVelocity(velocity, percent);
+  intakeLeft.setVelocity(velocity, percent);
+  cubeRamp.setVelocity(velocity, percent);
+  leftFWD.setVelocity(velocity, percent);
+  rightFWD.setVelocity(velocity, percent);
+  leftBack.setVelocity(velocity, percent);
+  rightBack.setVelocity(velocity,percent);
+  
+}
 void pre_auton(void) {
    motorHold(true);
 }
@@ -209,10 +221,7 @@ void usercontrol(void) {//User Control
     Controller1.Screen.print("R", (rightFWD.velocity(rpm)+rightBack.velocity(rpm)/2));
     Controller1.Screen.print("L", (leftFWD.velocity(rpm)+leftBack.velocity(rpm)/2));
     Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
-    leftFWD.setVelocity(baseSpeed, rpm);
-    leftBack.setVelocity(baseSpeed, rpm);
-    rightFWD.setVelocity(baseSpeed, rpm);
-    rightBack.setVelocity(baseSpeed, rpm);
+    motorSpeed(baseSpeed);
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }
