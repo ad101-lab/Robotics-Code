@@ -192,6 +192,8 @@ void usercontrol(void) {//User Control
       intakeValue = 45;//sets cube ramp to 45 RPM
     } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
       stack();//Stacks
+    } else if (Controller2.ButtonR1.pressing() and Controller2.ButtonR2.pressing()){
+      baseSpeed = 100;
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     } 
