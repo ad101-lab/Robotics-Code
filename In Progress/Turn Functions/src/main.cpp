@@ -23,6 +23,7 @@ int intakeValue;
 int cms;
 int tright;
 int tleft;
+int Heading;
 
 void moveForward(int cm, int speed){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
@@ -74,11 +75,12 @@ void turnRight(int degree, int speed){
 
 void turnLeft(int degree, int speed){
   Inertial.setHeading(0, degrees);
+  Heading = Inertial.heading();
   leftFWD.spin(reverse, speed, rpm);
   leftBack.spin(reverse, speed, rpm);
   rightFWD.spin(forward, speed, rpm);
   rightBack.spin(forward, speed, rpm);
-  waitUntil(Inertial.heading(degrees));
+  waitUntil(0 == (Heading - Inertial.heading(degrees)));
   leftFWD.stop();
   leftBack.stop();
   rightFWD.stop();
@@ -150,10 +152,7 @@ void pre_auton(void) {
   Inertial.calibrate();
 }
 
-void autonomous(void) {
-  turnLeft(90, 50);
-  wait(1, seconds);
-  turnRight(90, 50);
+void autonomous(void) {turnLeft(90, 100);
 }
 
 void usercontrol(void) {//User Control
