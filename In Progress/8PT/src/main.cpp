@@ -166,7 +166,7 @@ void motorSpeed(int velocity){
   
 }
 void pre_auton(void) {
-   motorHold(true);
+  motorHold(true);
 }
 
 void autonomous(void) {
@@ -178,17 +178,25 @@ void autonomous(void) {
   wait(5, seconds);
   intake(10);
   moveBackwards(55, 60);
+  wait(1, seconds);
   turnRight(135);
   moveBackwards(10, 30);
+  wait(0.5, seconds);
   intake(250);
   wait(1, seconds);
   intake(10);
   moveForward(10, 20);
+  wait(3, seconds);
   turnRight(180);
   moveForward(65, 30);
   wait(3, seconds);
   intake(0);
   stack();
+  /*turnRight(180);
+  moveForward(300, 50);
+  turnLeft(90);
+  moveForward(50, 30);
+  stack();*/
 }
 
 void usercontrol(void) {//User Control
