@@ -170,23 +170,24 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
+  cubeRampVertical(true, 100);
   intake(250);
   wait(0.5, seconds);
+  cubeRampVertical(false, 100);
   moveForward(110, 20);
   wait(5, seconds);
   intake(10);
-  moveBackwards(50, 50);
+  moveBackwards(55, 60);
   turnRight(135);
-  wait(1, seconds);
+  moveBackwards(10, 30);
   intake(250);
-  wait(0.5, seconds);
+  wait(1, seconds);
   intake(10);
-  turnLeft(135);
-  wait(1, seconds);
-  turnLeft(180);
-  wait(1, seconds);
-  moveForward(62, 50);
-  wait(2, seconds);
+  moveForward(10, 20);
+  turnRight(180);
+  moveForward(65, 30);
+  wait(3, seconds);
+  intake(0);
   stack();
 }
 
