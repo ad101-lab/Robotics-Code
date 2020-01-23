@@ -25,7 +25,7 @@ int tright;
 int tleft;
 int baseSpeed;
 
-void moveForward(int cm, int speed){
+void moveForward(int cm, int speed, bool stopping){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
   rightFWD.setVelocity(speed, percent);
   leftBack.setVelocity(speed, percent);
@@ -34,7 +34,7 @@ void moveForward(int cm, int speed){
   leftFWD.spinFor(cms, degrees, false);//Spins the Motors
   rightFWD.spinFor(cms, degrees, false);
   leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
+  rightBack.spinFor(cms, degrees, stopping);
   leftFWD.setVelocity(100, percent);//Resets the Velocity
   rightFWD.setVelocity(100, percent);
   leftBack.setVelocity(100, percent);
@@ -42,7 +42,7 @@ void moveForward(int cm, int speed){
 
 } 
 
-void moveBackwards(int cm, int speed){
+void moveBackwards(int cm, int speed, bool stopping){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
   rightFWD.setVelocity(speed, percent);
   leftBack.setVelocity(speed, percent);
@@ -51,7 +51,7 @@ void moveBackwards(int cm, int speed){
   leftFWD.spinFor(cms, degrees, false);//Spins the Motors
   rightFWD.spinFor(cms, degrees, false);
   leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
+  rightBack.spinFor(cms, degrees, stopping);
   leftFWD.setVelocity(100, percent);//Resets the Velocity
   rightFWD.setVelocity(100, percent);
   leftBack.setVelocity(100, percent);
@@ -111,11 +111,11 @@ void intake (int speed){
 
 void stack(){
   wait(0.3 ,seconds);
-  moveForward(1, 0);
+  moveForward(1, 0, false);
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
-  moveBackwards(40, 30);//Back away
+  moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
 }
@@ -166,39 +166,39 @@ void pre_auton(void) {
 void autonomous(void) {
   intake(250);//Sets the intake to flip out cube ramp
   wait(1, seconds);//waits for that to happen
-  moveForward(115, 20);//picks up the cubes
-  wait(7, seconds);//waits until it is done
+  moveForward(115, 20, true);//picks up the cubes
+  //wait(7, seconds);//waits until it is done
   intake(10);//slows the intake
   turnLeft(180, 50);
   intake(100);
   wait(1, seconds);
   intake(25);
-  moveBackwards(48, 50);
-  wait(1, seconds);
+  moveBackwards(48, 50, true);
+  //wait(1, seconds);
   turnRight(135, 50);
   wait(1,seconds);
-  moveForward(65, 30);
-  wait(2, seconds);
+  moveForward(65, 30, true);
+  //wait(2, seconds);
   intake(0);
   stack();
-  moveBackwards(50, 100);
-  wait(3, seconds);
+  moveBackwards(50, 100, true);
+  //wait(3, seconds);
   turnRight(135, 70);
-  moveForward(100, 30);
+  moveForward(100, 30, true);
   turnLeft(45, 50);
-  moveForward(30, 50);
+  moveForward(30, 50, true);
   stack();
   turnRight(45, 50);
-  moveForward(50, 50);
+  moveForward(50, 50, true);
   turnRight(90, 50);
   intake(250);
-  moveForward(100, 30);
+  moveForward(100, 30, true);
   intake(10);
-  moveBackwards(100, 100);
+  moveBackwards(100, 100, true);
   turnRight(90, 100);
-  moveForward(200, 100);
+  moveForward(200, 100, true);
   turnRight(45, 100);
-  moveForward(20, 50);
+  moveForward(20, 50, true);
   stack();
 }
 
@@ -246,9 +246,10 @@ void usercontrol(void) {//User Control
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     Controller1.Screen.clearScreen();
     Controller1.Screen.print("R", (rightFWD.velocity(rpm)+rightBack.velocity(rpm)/2));
+    Controller1.Screen.newLine(); 
     Controller1.Screen.print("L", (leftFWD.velocity(rpm)+leftBack.velocity(rpm)/2));
+    Controller1.Screen.newLine(); 
     Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
-    motorSpeed(baseSpeed);
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }

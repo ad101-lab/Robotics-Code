@@ -170,10 +170,10 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  //motorHold(false);
-  intake(250);//Sets the intake to flip out cube ramp
-  wait(1, seconds);//waits for that to happen
-  intake(0);
+  cubeRampVertical(true, 100);
+  intake(250);
+  cubeRampVertical(false, 90);
+
 }
 
 void usercontrol(void) {//User Control
@@ -205,29 +205,27 @@ void usercontrol(void) {//User Control
       intakeValue = 45;//sets cube ramp to 45 RPM
     } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
       stack();//Stacks
-    } else if (Controller2.ButtonR1.pressing() and Controller2.ButtonR2.pressing()){
-      baseSpeed = 100;
-      changedSpeed = true;
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     } 
+
     if(((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))) {
-      baseSpeed = 70;
+      motorSpeed(100);
       changedSpeed = true;
     } else {
-      baseSpeed = 250;
-      changedSpeed = true;
-    } 
-    if ((changedSpeed = true)){
-      motorSpeed(baseSpeed);
-      changedSpeed = false;
+      if (changedSpeed == true){
+        motorSpeed(250);
+        changedSpeed = false;
+      } 
     }
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
-    intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);/*
+    intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     Controller1.Screen.clearScreen();
     Controller1.Screen.print("R", (rightFWD.velocity(rpm)+rightBack.velocity(rpm)/2));
+    Controller1.Screen.newLine(); 
     Controller1.Screen.print("L", (leftFWD.velocity(rpm)+leftBack.velocity(rpm)/2));
-    Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));*/
+    Controller1.Screen.newLine(); 
+    Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }

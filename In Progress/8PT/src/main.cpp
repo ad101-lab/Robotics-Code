@@ -25,7 +25,7 @@ int tright;
 int tleft;
 int baseSpeed;
 
-void moveForward(int cm, int speed){
+void moveForward(int cm, int speed, bool stopping){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
   rightFWD.setVelocity(speed, percent);
   leftBack.setVelocity(speed, percent);
@@ -34,7 +34,7 @@ void moveForward(int cm, int speed){
   leftFWD.spinFor(cms, degrees, false);//Spins the Motors
   rightFWD.spinFor(cms, degrees, false);
   leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
+  rightBack.spinFor(cms, degrees, stopping);
   leftFWD.setVelocity(100, percent);//Resets the Velocity
   rightFWD.setVelocity(100, percent);
   leftBack.setVelocity(100, percent);
@@ -42,7 +42,7 @@ void moveForward(int cm, int speed){
 
 } 
 
-void moveBackwards(int cm, int speed){
+void moveBackwards(int cm, int speed, bool stopping){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
   rightFWD.setVelocity(speed, percent);
   leftBack.setVelocity(speed, percent);
@@ -51,7 +51,7 @@ void moveBackwards(int cm, int speed){
   leftFWD.spinFor(cms, degrees, false);//Spins the Motors
   rightFWD.spinFor(cms, degrees, false);
   leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
+  rightBack.spinFor(cms, degrees, stopping);
   leftFWD.setVelocity(100, percent);//Resets the Velocity
   rightFWD.setVelocity(100, percent);
   leftBack.setVelocity(100, percent);
@@ -117,11 +117,11 @@ void intake (int speed){
 
 void stack(){
   wait(0.3 ,seconds);
-  moveForward(1, 0);
+  moveForward(1, 0, true);
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
-  moveBackwards(40, 30);//Back away
+  moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
 }
@@ -174,28 +174,25 @@ void autonomous(void) {
   intake(250);
   wait(0.5, seconds);
   cubeRampVertical(false, 100);
-  moveForward(110, 20);
-  wait(5, seconds);
+  moveForward(110, 20, true);
   intake(10);
-  moveBackwards(55, 60);
-  wait(1, seconds);
+  moveBackwards(55, 60, true);
   turnRight(135);
-  moveBackwards(10, 30);
-  wait(0.5, seconds);
+  moveBackwards(10, 30, true);
   intake(250);
   wait(1, seconds);
   intake(10);
-  moveForward(10, 20);
+  moveForward(10, 20, false);
   wait(3, seconds);
   turnRight(180);
-  moveForward(65, 30);
-  wait(3, seconds);
+  moveForward(65, 30, true);
+  wait(2, seconds);
   intake(0);
   stack();
   /*turnRight(180);
-  moveForward(300, 50);
+  moveForward(300, 50, true);
   turnLeft(90);
-  moveForward(50, 30);
+  moveForward(50, 30, true);
   stack();*/
 }
 
