@@ -182,11 +182,10 @@ void autonomous(void) {
   turnLeft(125);
   wait(1, seconds);
   moveBackwards(40, 30, true);
-  intake(250);
-  wait(1, seconds);
+  intake(280);
+  wait(2, seconds);
   intake(10);
-  moveForward(40, 20, false);
-  wait(3, seconds);
+  moveForward(20, 20, true);
   turnRight(180);
   moveForward(65, 30, true);
   wait(2, seconds);
