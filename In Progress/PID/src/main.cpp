@@ -24,6 +24,40 @@ int degree;
 int tright;
 int tleft;
 int baseSpeed;
+bool driveEnabledPID = true;
+
+//Settings
+double kP = 0.0;
+double kI = 0.0;
+double kD = 0.0;
+int desiredValue = 100;
+
+int error;
+int prevError = 0;
+int derivative;
+int totalError = 0;
+
+void drivePID(){
+  while(driveEnabledPID){
+
+    int leftFWDMotorPosition = leftFWD.position(degrees);
+    int rightFWDMotorPosition = rightFWD.position(degrees);
+    int leftBackMotorPosition = leftBack.position(degrees);
+    int rightBackMotorPosition = rightBack.position(degrees);
+    int adveragePosition = (rightBackMotorPosition + leftBackMotorPosition + rightFWDMotorPosition + leftFWDMotorPosition)/ 4;
+
+    error = adveragePosition - desiredValue;
+
+    derivative = error - prevError;
+
+    totalError += error;
+
+    double motorPower = (error * kP + derivative * kD + totalError * kI) / 12.0;
+
+    prevError = error;
+    task::sleep(20);
+  }
+}
 
 void moveForward(int cm, int speed, bool stopping){
   degree = (cm/32) * 375;//Transfer to the degrees
@@ -100,6 +134,14 @@ void stack(){
   moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
+}
+
+int driveStack(){
+  while(Controller1.ButtonX.pressing()){
+    stack();
+    task::sleep(20);
+  }
+  return 1;
 }
 
 void motorWait(){
@@ -187,6 +229,7 @@ void autonomous(void) {
 }
 
 void usercontrol(void) {//User Control
+  task stacking(driveStack);
   while (1) {
     motorHold(true);//Puts the motors into hold mode
     rightFWD.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);//Tank Drive controls
@@ -213,9 +256,9 @@ void usercontrol(void) {//User Control
       intakeValue = -50;//sets cube ramp to -50 RPM
     }else if(Controller2.ButtonB.pressing()){//if button is pressing it will
       intakeValue = 45;//sets cube ramp to 45 RPM
-    } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
+    } /*else if(Controller2.ButtonX.pressing()){//if button is pressing it will
       stack();//Stacks
-    } else if (Controller2.ButtonR1.pressing() and Controller2.ButtonR2.pressing()){
+    }*/ else if (Controller2.ButtonR1.pressing() and Controller2.ButtonR2.pressing()){
       baseSpeed = 100;
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
