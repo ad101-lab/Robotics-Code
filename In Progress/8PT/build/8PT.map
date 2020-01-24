@@ -2224,30 +2224,30 @@ Linker script and memory map
                 0x038002a8      0x1a8 build/src/main.o
                 0x038002a8                moveBackwards(int, int, bool)
  .text._Z9turnRighti
-                0x03800450      0x1a0 build/src/main.o
+                0x03800450      0x1a8 build/src/main.o
                 0x03800450                turnRight(int)
  .text._Z8turnLefti
-                0x038005f0      0x1a0 build/src/main.o
-                0x038005f0                turnLeft(int)
+                0x038005f8      0x1a0 build/src/main.o
+                0x038005f8                turnLeft(int)
  .text._Z16cubeRampVerticalbi
-                0x03800790      0x130 build/src/main.o
-                0x03800790                cubeRampVertical(bool, int)
+                0x03800798      0x130 build/src/main.o
+                0x03800798                cubeRampVertical(bool, int)
  .text._Z6intakei
-                0x038008c0       0x7c build/src/main.o
-                0x038008c0                intake(int)
- *fill*         0x0380093c        0x4 
+                0x038008c8       0x7c build/src/main.o
+                0x038008c8                intake(int)
+ *fill*         0x03800944        0x4 
  .text._Z5stackv
-                0x03800940       0x90 build/src/main.o
-                0x03800940                stack()
+                0x03800948       0x90 build/src/main.o
+                0x03800948                stack()
  .text._Z9motorHoldb
-                0x038009d0       0x9c build/src/main.o
-                0x038009d0                motorHold(bool)
+                0x038009d8       0x9c build/src/main.o
+                0x038009d8                motorHold(bool)
  .text._Z10motorSpeedi
-                0x03800a6c       0xd4 build/src/main.o
-                0x03800a6c                motorSpeed(int)
+                0x03800a74       0xd4 build/src/main.o
+                0x03800a74                motorSpeed(int)
  .text._Z10autonomousv
-                0x03800b40      0x104 build/src/main.o
-                0x03800b40                autonomous()
+                0x03800b48       0xfc build/src/main.o
+                0x03800b48                autonomous()
  .text._Z11usercontrolv
                 0x03800c44      0x474 build/src/main.o
                 0x03800c44                usercontrol()

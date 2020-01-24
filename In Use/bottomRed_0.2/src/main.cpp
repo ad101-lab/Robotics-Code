@@ -214,24 +214,11 @@ void usercontrol(void) {//User Control
       intakeValue = 45;//sets cube ramp to 45 RPM
     } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
       stack();//Stacks
-    } else if (Controller2.ButtonR1.pressing() and Controller2.ButtonR2.pressing()){
-      baseSpeed = 100;
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
-    } 
-    if(((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))) {
-      baseSpeed = 70;
-    } else {
-      baseSpeed = 250;
-    } 
-
+    }
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
-    Controller1.Screen.clearScreen();
-    Controller1.Screen.print("R", (rightFWD.velocity(rpm)+rightBack.velocity(rpm)/2));
-    Controller1.Screen.print("L", (leftFWD.velocity(rpm)+leftBack.velocity(rpm)/2));
-    Controller1.Screen.print("INTAKES", leftFWD.velocity(rpm));
-    motorSpeed(baseSpeed);
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }

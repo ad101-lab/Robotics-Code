@@ -69,7 +69,7 @@ void turnRight(int degree){
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//Spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
-  rightBack.spinFor(tright, vex::rotationUnits::deg, false);
+  rightBack.spinFor(tright, vex::rotationUnits::deg, true);
   leftFWD.setVelocity(200, rpm);
   leftBack.setVelocity(200, rpm);
   rightFWD.setVelocity(200, rpm);
@@ -181,11 +181,11 @@ void autonomous(void) {
   wait(0.5, seconds);
   turnLeft(125);
   wait(1, seconds);
-  moveBackwards(40, 30, true);
-  intake(280);
-  wait(2, seconds);
-  intake(10);
-  moveForward(20, 20, true);
+  intake(-20);
+  wait(1.5, seconds);
+  intake(250);
+  moveBackwards(40, 60, true);
+  moveForward(20, 100, true);
   turnRight(180);
   moveForward(65, 30, true);
   wait(2, seconds);
