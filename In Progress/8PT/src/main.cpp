@@ -79,10 +79,10 @@ void turnRight(int degree){
 void turnLeft(int degree){
   tright = degree * (335/90);//Sets the transvertion factors
   tleft  = degree * (335/90) * -1;
-  leftFWD.setVelocity(100, rpm);
-  leftBack.setVelocity(100, rpm);
-  rightFWD.setVelocity(100, rpm);
-  rightBack.setVelocity(100, rpm);
+  leftFWD.setVelocity(70, rpm);
+  leftBack.setVelocity(70, rpm);
+  rightFWD.setVelocity(70, rpm);
+  rightBack.setVelocity(70, rpm);
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
@@ -173,24 +173,25 @@ void autonomous(void) {
   //cubeRampVertical(true, 100);
   intake(-250);
   wait(0.25, seconds);
-  intake(225);
+  intake(200);
   //cubeRampVertical(false, 100);
   moveForward(110, 20, true);
   intake(10);
-  moveBackwards(55, 60, true);
+  moveBackwards(50, 60, true);
   wait(0.5, seconds);
-  turnLeft(125);
-  wait(1, seconds);
+  turnLeft(110);
+  /*wait(1, seconds);
   intake(-20);
   wait(1.5, seconds);
   intake(250);
   moveBackwards(40, 60, true);
   moveForward(20, 100, true);
-  turnRight(180);
+  wait(0.5, seconds);
+  turnLeft(180);
   moveForward(65, 30, true);
   wait(2, seconds);
   intake(0);
-  stack();
+  stack();*/
   /*turnRight(180);
   moveForward(300, 50, true);
   turnLeft(90);
