@@ -115,8 +115,6 @@ void intake (int speed){
 }
 
 void stack(){
-  wait(0.3 ,seconds);
-  moveForward(1, 0);
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
@@ -175,12 +173,14 @@ void autonomous(void) {
   moveForward(110, 20);//picks up the cubes
   wait(5, seconds);//waits until it is done
   intake(25);//slows the intake
-  moveBackwards(48, 50);
+  moveBackwards(54, 50);
   wait(1, seconds);
   turnRight(180);
   wait(1,seconds);
-  moveForward(63, 30);
+  moveForward(64, 30);
   wait(2, seconds);
+  intake(-50);
+  wait(0.5, seconds);
   intake(0);
   stack();
 }

@@ -156,22 +156,14 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  intake(-250);
-  wait(0.25, seconds);
-  intake(250);
-  moveForward(110, 20);//picks up the cubes
-  wait(5, seconds);//waits until it is done
-  intake(25);//slows the intake
-  moveBackwards(54, 50);
-  wait(1, seconds);
-  turnLeft(180);
-  wait(1,seconds);
-  moveForward(67, 30);
-  wait(2, seconds);
-  intake(-50);
-  wait(0.5, seconds);
+  motorHold(false);
+  intake(250);//Sets the intake to flip out cube ramp
+  wait(1, seconds);//waits for that to happen
   intake(0);
-  stack();
+  moveBackwards(30, 50);
+  wait(2, seconds);
+  moveForward(30, 50);
+  wait(2, seconds);
 }
 
 void usercontrol(void) {//User Control
