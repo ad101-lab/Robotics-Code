@@ -7,13 +7,14 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
+motor rightFWD = motor(PORT20, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT9, ratio6_1, false);//Left FWD
+motor rightBack = motor(PORT11, ratio6_1, true);//Right Back
+motor leftBack = motor(PORT1, ratio6_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio36_1, false);//Cube ramp motor global
+motor intakeRight = motor(PORT5, ratio36_1, true);//Right intake global
+motor intakeLeft = motor(PORT7, ratio36_1, false);//Left intake
+motor oneBar = motor(PORT1, ratio36_1, true);
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(primary);
 
@@ -151,27 +152,19 @@ void motorHold(bool holding){
  }
 }
 
+void oneBarUp(int distance, int speeds){
+  oneBar.spinFor(forward, distance, degrees, speeds, )//1:15 gear ratio
+}
+
 void pre_auton(void) {
    
 }
 
 void autonomous(void) {
-  intake(-250);
-  wait(0.25, seconds);
-  intake(250);
-  moveForward(110, 20);//picks up the cubes
-  wait(5, seconds);//waits until it is done
-  intake(25);//slows the intake
-  moveBackwards(54, 50);
-  wait(1, seconds);
-  turnLeft(180);
-  wait(1,seconds);
-  moveForward(63.5, 30);
-  wait(2, seconds);
-  intake(-50);
-  wait(0.5, seconds);
+  motorHold(false);
+  intake(250);//Sets the intake to flip out cube ramp
+  wait(1, seconds);//waits for that to happen
   intake(0);
-  stack();
 }
 
 void usercontrol(void) {//User Control
