@@ -23,6 +23,7 @@ int intakeValue;
 int cms;
 int tright;
 int tleft;
+int oneBarValue;
 
 void moveForward(int cm, int speed){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
@@ -152,8 +153,9 @@ void motorHold(bool holding){
  }
 }
 
-void oneBarUp(int distance, int speeds){
-  oneBar.spinFor(forward, distance, degrees, speeds, )//1:15 gear ratio
+void oneBarUp(int distance, int speeds, bool stopping){
+  int speed = speeds/12;
+  oneBar.spinFor(forward, distance, degrees, speed, velocityUnits::rpm, stopping);//1:15 gear ratio
 }
 
 void pre_auton(void) {
@@ -199,6 +201,14 @@ void usercontrol(void) {//User Control
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     }
+    if(Controller1.ButtonUp.pressing()){
+      oneBarValue = 100;
+    }else if (Controller1.ButtonDown.pressing()) {
+      oneBarValue = -100;
+    } else {
+      oneBarValue = 0;
+    }
+    oneBar.spin(forward, oneBarValue, pct);
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     wait(20, msec); // Sleep the task for a short amount of time to
