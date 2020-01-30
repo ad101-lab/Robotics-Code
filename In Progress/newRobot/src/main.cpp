@@ -24,6 +24,8 @@ int cms;
 int tright;
 int tleft;
 int oneBarValue;
+int turnValue;
+int baseRPM;
 
 void moveForward(int cm, int speed){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
@@ -172,10 +174,10 @@ void autonomous(void) {
 void usercontrol(void) {//User Control
   while (1) {
     motorHold(true);//Puts the motors into hold mode
-    rightFWD.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);//Tank Drive controls
-    leftFWD.spin(forward, Controller1.Axis3.position() , vex::velocityUnits::pct);
-    rightBack.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);
-    leftBack.spin(forward, Controller1.Axis3.position() , vex::velocityUnits::pct);
+    rightFWD.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);//Tank Drive controls
+    leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
+    rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
+    leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     if (Controller2.ButtonL1.pressing() and !(rampBumperForward.pressing())){//if button is pressing it will
       cubeRampValue = 85;//sets cube ramp to 85 RPM
     } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {//if button is pressing it will
@@ -207,6 +209,16 @@ void usercontrol(void) {//User Control
       oneBarValue = -100;
     } else {
       oneBarValue = 0;
+    }
+    if (Controller1.ButtonY.pressing()){
+      baseRPM = 6;
+    } else{
+      baseRPM = 1;
+    }
+    if (((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))){
+      turnValue = 3;
+    } else{
+      turnValue = 1;
     }
     oneBar.spin(forward, oneBarValue, pct);
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
