@@ -7,15 +7,16 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
+motor rightFWD = motor(PORT20, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT9, ratio6_1, false);//Left FWD
+motor rightBack = motor(PORT11, ratio6_1, true);//Right Back
+motor leftBack = motor(PORT1, ratio6_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio36_1, false);//Cube ramp motor global
+motor intakeRight = motor(PORT5, ratio36_1, true);//Right intake global
+motor intakeLeft = motor(PORT7, ratio36_1, false);//Left intake
+motor oneBar = motor(PORT1, ratio36_1, true);
 controller Controller1        = controller(primary);//Sets up controllers
-controller Controller2        = controller(primary);
+controller Controller2        = controller(partner);
 
 int cubeRampValue;//Sets up integers to be used later
 int intakeValue;
@@ -154,6 +155,11 @@ void motorHold(bool holding){
  }
 }
 
+void oneBarUp(int distance, int speeds, bool stopping){
+  int speed = speeds/12;
+  oneBar.spinFor(forward, distance, degrees, speed, velocityUnits::rpm, stopping);//1:15 gear ratio
+}
+
 void pre_auton(void) {
    
 }
@@ -172,30 +178,37 @@ void usercontrol(void) {//User Control
     leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
-    if (Controller2.ButtonL1.pressing() and !(rampBumperForward.pressing())){//if button is pressing it will
+    if (Controller1.ButtonL1.pressing() and !(rampBumperForward.pressing())){//if button is pressing it will
       cubeRampValue = 85;//sets cube ramp to 85 RPM
-    } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {//if button is pressing it will
+    } else if (Controller1.ButtonL2.pressing() and !(rampBumper.pressing())) {//if button is pressing it will
       cubeRampValue = -100;//sets cube ramp to -100 RPM
-    } else if (Controller2.ButtonUp.pressing()) {//if button is pressing it will
+    } else if (Controller1.ButtonUp.pressing()) {//if button is pressing it will
       cubeRampVertical(true, 80);//moves cube ramp up
-    } else if (Controller2.ButtonDown.pressing()){//if button is pressing it will
+    } else if (Controller1.ButtonDown.pressing()){//if button is pressing it will
       cubeRampVertical(false, 80);//moves cube ramp down
     } else {//if no others are true
       cubeRampValue = 0;//Stops cube ramp
     }
     cubeRamp.spin(forward, cubeRampValue , vex::velocityUnits::rpm);//applies the changes
-    if (Controller2.ButtonR1.pressing()){//if button is pressing it will
+    if (Controller1.ButtonR1.pressing()){//if button is pressing it will
       intakeValue = 100;//sets cube ramp to 100 RPM
-    } else if (Controller2.ButtonR2.pressing()) {//if button is pressing it will
+    } else if (Controller1.ButtonR2.pressing()) {//if button is pressing it will
       intakeValue = -200;//sets cube ramp to -200 RPM
-    } else if (Controller2.ButtonA.pressing()){//if button is pressing it will
+    } else if (Controller1.ButtonA.pressing()){//if button is pressing it will
       intakeValue = -50;//sets cube ramp to -50 RPM
-    }else if(Controller2.ButtonB.pressing()){//if button is pressing it will
+    }else if(Controller1.ButtonB.pressing()){//if button is pressing it will
       intakeValue = 45;//sets cube ramp to 45 RPM
-    } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
+    } else if(Controller1.ButtonX.pressing()){//if button is pressing it will
       stack();//Stacks
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
+    }
+    if(Controller2.ButtonUp.pressing() and (oneBar.position(rotationUnits::rev)< 5)){
+      oneBarValue = 100;
+    }else if (Controller2.ButtonDown.pressing() and (oneBar.position(rotationUnits::rev) > 0)) {
+      oneBarValue = -100;
+    } else {
+      oneBarValue = 0;
     }
     if (Controller2.ButtonR1.pressing()){
       baseRPM = 6;
@@ -209,6 +222,7 @@ void usercontrol(void) {//User Control
     } else{
       turnValue = 1;
     }
+    oneBar.spin(forward, oneBarValue, pct);
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     wait(20, msec); // Sleep the task for a short amount of time to
