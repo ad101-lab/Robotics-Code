@@ -171,8 +171,6 @@ void autonomous(void) {
   intake(-50);
   wait(0.5, seconds);
   intake(0);
-  moveBackwards(2, 10);
-  wait(0.2, seconds);
   stack();
 }
 
