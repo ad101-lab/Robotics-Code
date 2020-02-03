@@ -23,8 +23,8 @@ int cms;
 int tright;
 int tleft;
 int oneBarValue;
-int turnValue;
-int baseRPM;
+double turnValue = 1;
+double baseRPM = 1;
 
 void moveForward(int cm, int speed){
   leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
@@ -185,9 +185,9 @@ void usercontrol(void) {//User Control
     }
     cubeRamp.spin(forward, cubeRampValue , vex::velocityUnits::rpm);//applies the changes
     if (Controller2.ButtonR1.pressing()){//if button is pressing it will
-      intakeValue = 100;//sets cube ramp to 100 RPM
+      intakeValue = 50;//sets cube ramp to 100 RPM
     } else if (Controller2.ButtonR2.pressing()) {//if button is pressing it will
-      intakeValue = -200;//sets cube ramp to -200 RPM
+      intakeValue = -100;//sets cube ramp to -200 RPM
     } else if (Controller2.ButtonA.pressing()){//if button is pressing it will
       intakeValue = -50;//sets cube ramp to -50 RPM
     }else if(Controller2.ButtonB.pressing()){//if button is pressing it will
@@ -197,13 +197,13 @@ void usercontrol(void) {//User Control
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     }
-    if (Controller2.ButtonR1.pressing()){
+    /*if (Controller2.ButtonR1.pressing()){
       baseRPM = 6;
     } else if(Controller2.ButtonR2.pressing()){
       baseRPM = 12;  
     } else{
       baseRPM = 1;
-    }
+    }*/
     if (((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))){
       turnValue = 3;
     } else{
