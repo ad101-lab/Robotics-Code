@@ -155,25 +155,40 @@ void motorHold(bool holding){
  }
 }
 
-void oneBarUp(int distance, int speeds, bool stopping){
-  int speed = speeds/12;
-  oneBar.spinFor(forward, distance, degrees, speed, velocityUnits::rpm, stopping);//1:15 gear ratio
+int oneBarUp(int distance, int speeds, bool stopping){
+  if(oneBar.rotation(rev) < 5 and distance > 0){
+    oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
+  }else if (oneBar.rotation(rev) > 0 and distance < 0) {
+    oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
+  }else {
+    oneBar.stop();
+    return false;
+  }
+  return true;
 }
 
+void oneBarStop(){
+  while(1){
+    if(oneBar.rotation(rev) > 5 or oneBar.rotation(rev) < 0){
+      oneBar.stop();
+    }
+  }
+}
+
+
 void pre_auton(void) {
-   
+  motorHold(true);
 }
 
 void autonomous(void) {
-  motorHold(false);
-  intake(250);//Sets the intake to flip out cube ramp
-  wait(1, seconds);//waits for that to happen
-  intake(0);
+  intake(100);
+  oneBarUp(45, 100, true);
+  oneBarUp(-45, 100, true);
+  //moveForward(, int speed)
 }
 
 void usercontrol(void) {//User Control
   while (1) {
-    motorHold(true);//Puts the motors into hold mode
     rightFWD.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);//Tank Drive controls
     leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
