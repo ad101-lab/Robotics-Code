@@ -7,57 +7,44 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio18_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio18_1, false);//Left intake
+motor rightFWD = motor(PORT20, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT9, ratio6_1, false);//Left FWD
+motor rightBack = motor(PORT11, ratio6_1, true);//Right Back
+motor leftBack = motor(PORT1, ratio6_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio36_1, false);//Cube ramp motor global
+motor intakeRight = motor(PORT5, ratio36_1, true);//Right intake global
+motor intakeLeft = motor(PORT7, ratio36_1, false);//Left intake
+motor oneBar = motor(PORT1, ratio36_1, true);
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(primary);
 
 int cubeRampValue;//Sets up integers to be used later
 int intakeValue;
-int cms;
-int tright;
-int tleft;
+double cms;
+double tright;
+double tleft;
+double oneBarValue;
+double turnValue;
+double baseRPM;
+double degree;
 
-void moveForward(int cm, int speed){
-  leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
-  rightFWD.setVelocity(speed, percent);
-  leftBack.setVelocity(speed, percent);
-  rightBack.setVelocity(speed, percent);
-  cms = (cm/32) * 375;//Transfer to the degrees
-  leftFWD.spinFor(cms, degrees, false);//Spins the Motors
-  rightFWD.spinFor(cms, degrees, false);
-  leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
-  leftFWD.setVelocity(100, percent);//Resets the Velocity
-  rightFWD.setVelocity(100, percent);
-  leftBack.setVelocity(100, percent);
-  rightBack.setVelocity(100, percent);
-
+void moveForward(double cm, double speed, bool stopping){
+  degree = (cm/32) * 375;//Transfer to the degrees
+  leftFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  leftBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, stopping);
 } 
 
-void moveBackwards(int cm, int speed){
-  leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
-  rightFWD.setVelocity(speed, percent);
-  leftBack.setVelocity(speed, percent);
-  rightBack.setVelocity(speed, percent);
-  cms = (cm/32) * -375;//Transfer to the degrees
-  leftFWD.spinFor(cms, degrees, false);//Spins the Motors
-  rightFWD.spinFor(cms, degrees, false);
-  leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
-  leftFWD.setVelocity(100, percent);//Resets the Velocity
-  rightFWD.setVelocity(100, percent);
-  leftBack.setVelocity(100, percent);
-  rightBack.setVelocity(100, percent);
-
+void moveBackwards(double cm, double speed, bool stopping){
+  degree = (cm/32) * 375;//Transfer to the degrees
+  leftFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  leftBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, stopping);
 }
 
-void turnRight(int degree){
+void turnRight(double degree){
   tright = degree * (335/90) * -1;//Sets the transvertion factors
   tleft  = degree * (335/90);
   leftFWD.setVelocity(100, rpm);
@@ -74,7 +61,7 @@ void turnRight(int degree){
   rightBack.setVelocity(200, rpm);
 }
 
-void turnLeft(int degree){
+void turnLeft(double degree){
   tright = degree * (335/90);//Sets the transvertion factors
   tleft  = degree * (335/90) * -1;
   leftFWD.setVelocity(100, rpm);
@@ -91,7 +78,7 @@ void turnLeft(int degree){
   rightBack.setVelocity(200, rpm);
 }
 
-void cubeRampVertical (bool degree, int speed){
+void cubeRampVertical (bool degree, double speed){
   cubeRamp.setVelocity(speed, rpm);//sets the velocity to the specified 
   if(degree == true){
     cubeRamp.spin(forward);//Spins motor Forward
@@ -106,7 +93,7 @@ void cubeRampVertical (bool degree, int speed){
 
 }
 
-void intake (int speed){
+void intake (double speed){
   intakeValue = speed*-1; //Conversion factor
   intakeLeft.spin(forward, intakeValue, rpm);//spins both intakes
   intakeRight.spin(forward, intakeValue, rpm);
@@ -117,7 +104,7 @@ void stack(){
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
-  moveBackwards(40, 30);//Back away
+  moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
 }
@@ -151,38 +138,50 @@ void motorHold(bool holding){
  }
 }
 
+int oneBarUp(double distance, double speeds, bool stopping){
+  if(oneBar.rotation(rev) < 5 and distance > 0){
+    oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
+  }else if (oneBar.rotation(rev) > 0 and distance < 0) {
+    oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
+  }else {
+    oneBar.stop();
+    return false;
+  }
+  return true;
+}
+
+void oneBarStop(){
+  while(1){
+    if(oneBar.rotation(rev) > 5 or oneBar.rotation(rev) < 0){
+      oneBar.stop();
+    }
+  }
+}
+
+
 void pre_auton(void) {
-   
+  motorHold(true);
 }
 
 void autonomous(void) {
-  intake(-250);
-  wait(0.25, seconds);
-  intake(250);
-  moveForward(110, 20);//picks up the cubes
-  wait(5, seconds);//waits until it is done
-  intake(25);//slows the intake
-  moveBackwards(54, 50);
-  wait(1, seconds);
-  turnLeft(180);
-  wait(1,seconds);
-  moveForward(64, 20);
-  wait(2, seconds);
-  intake(-50);
-  wait(0.5, seconds);
+  intake(100);
+  oneBarUp(45, 100, true);
+  oneBarUp(-45, 100, true);
+  moveForward(110, 10, true);
   intake(0);
-  moveBackwards(2, 10);
-  wait(0.2, seconds);
+  moveBackwards(54, 50, true);
+  turnRight(180);
+  moveForward(63.5, 10, true);
+  intake(0);
   stack();
 }
 
 void usercontrol(void) {//User Control
   while (1) {
-    motorHold(true);//Puts the motors into hold mode
-    rightFWD.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);//Tank Drive controls
-    leftFWD.spin(forward, Controller1.Axis3.position() , vex::velocityUnits::pct);
-    rightBack.spin(forward, Controller1.Axis2.position() , vex::velocityUnits::pct);
-    leftBack.spin(forward, Controller1.Axis3.position() , vex::velocityUnits::pct);
+    rightFWD.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);//Tank Drive controls
+    leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
+    rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
+    leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     if (Controller2.ButtonL1.pressing() and !(rampBumperForward.pressing())){//if button is pressing it will
       cubeRampValue = 85;//sets cube ramp to 85 RPM
     } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {//if button is pressing it will
@@ -208,6 +207,24 @@ void usercontrol(void) {//User Control
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     }
+    if(Controller1.ButtonUp.pressing()){
+      oneBarValue = 100;
+    }else if (Controller1.ButtonDown.pressing()) {
+      oneBarValue = -100;
+    } else {
+      oneBarValue = 0;
+    }
+    if (Controller1.ButtonY.pressing()){
+      baseRPM = 6;
+    } else{
+      baseRPM = 1;
+    }
+    if (((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))){
+      turnValue = 3;
+    } else{
+      turnValue = 1;
+    }
+    oneBar.spin(forward, oneBarValue, pct);
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     wait(20, msec); // Sleep the task for a short amount of time to
