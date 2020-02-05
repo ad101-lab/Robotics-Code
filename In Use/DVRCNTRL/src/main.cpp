@@ -187,9 +187,9 @@ void usercontrol(void) {//User Control
     if (Controller2.ButtonR1.pressing()){//if button is pressing it will
       intakeValue = 50;//sets cube ramp to 100 RPM
     } else if (Controller2.ButtonR2.pressing()) {//if button is pressing it will
-      intakeValue = -100;//sets cube ramp to -200 RPM
+      intakeValue = -200;//sets cube ramp to -200 RPM
     } else if (Controller2.ButtonA.pressing()){//if button is pressing it will
-      intakeValue = -50;//sets cube ramp to -50 RPM
+      intakeValue = -100;//sets cube ramp to -50 RPM
     }else if(Controller2.ButtonB.pressing()){//if button is pressing it will
       intakeValue = 45;//sets cube ramp to 45 RPM
     } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
@@ -205,7 +205,7 @@ void usercontrol(void) {//User Control
       baseRPM = 1;
     }*/
     if (((Controller1.Axis3.value() > 60) and (Controller1.Axis2.value() < -60)) or ((Controller1.Axis3.value() < -60) and (Controller1.Axis2.value() > 60))){
-      turnValue = 3;
+      turnValue = 2;
     } else{
       turnValue = 1;
     }

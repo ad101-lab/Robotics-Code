@@ -158,21 +158,21 @@ void pre_auton(void) {
 void autonomous(void) {
   intake(-250);
   wait(0.25, seconds);
-  intake(250);
+  intake(160);
   moveForward(110, 20);//picks up the cubes
   wait(5, seconds);//waits until it is done
-  intake(25);//slows the intake
-  moveBackwards(54, 50);
+  intake(-20);//slows the intake
+  wait(0.2, seconds);
+  intake(20);
+  moveBackwards(60, 55);
   wait(1, seconds);
   turnLeft(180);
   wait(1,seconds);
   moveForward(64, 20);
   wait(2, seconds);
-  intake(-50);
-  wait(0.5, seconds);
   intake(0);
-  moveBackwards(2, 10);
-  wait(0.2, seconds);
+  //moveBackwards(3, 30);
+  //wait(0.3, seconds);
   stack();
 }
 
