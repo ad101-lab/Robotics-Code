@@ -17,3 +17,12 @@ The code is written in C++ for the Vex V5 brains to run if you have all of the s
 **WARNING THE CODE WILL NOT WORK ON YOUR ROBOT**
 
 *Most of the newer code and all in progress code is in competion format but the older code that has been phased out is not in competion format for the competion swich*
+
+**PORTS**
+*Right Forward **PORT 20**
+*Left Forward **PORT 9**
+*Right Back **PORT 11**
+*Left Back **PORT 1**
+*Cube Ramp **PORT 6**
+*Intake Right **PORT 5**
+*Intake Left **PORT 7**
