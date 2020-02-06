@@ -5,6 +5,6 @@
 * turnLeft(Degrees, speed(percent))
 * cubeRampVertical(bool (up = true, down = false), speed)
 * intake(RPM)
-* stack() stacks the cubes right in front of the robot
-* oneBarUp(degrees) moves the one bar up and down on new robot
-* motorHold() puts the motors into the hold position
+* stack() *stacks the cubes right in front of the robot*
+* oneBarUp(degrees) *moves the one bar up and down on new robot*
+* motorHold() *puts the motors into the hold position*
