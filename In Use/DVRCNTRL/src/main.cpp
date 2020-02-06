@@ -185,7 +185,7 @@ void usercontrol(void) {//User Control
     }
     cubeRamp.spin(forward, cubeRampValue , vex::velocityUnits::rpm);//applies the changes
     if (Controller2.ButtonR1.pressing()){//if button is pressing it will
-      intakeValue = 50;//sets cube ramp to 100 RPM
+      intakeValue = 95;//sets cube ramp to 100 RPM
     } else if (Controller2.ButtonR2.pressing()) {//if button is pressing it will
       intakeValue = -200;//sets cube ramp to -200 RPM
     } else if (Controller2.ButtonA.pressing()){//if button is pressing it will
