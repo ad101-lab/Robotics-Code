@@ -20,16 +20,16 @@ The code is written in C++ for the Vex V5 brains to run if you have all of the s
 
 **PORTS**
 
-*Right Forward **PORT 20**
+* Right Forward **PORT 20**
 
-*Left Forward **PORT 9**
+* Left Forward **PORT 9**
 
-*Right Back **PORT 11**
+* Right Back **PORT 11**
 
-*Left Back **PORT 1**
+* Left Back **PORT 1**
 
-*Cube Ramp **PORT 6**
+* Cube Ramp **PORT 6**
 
-*Intake Right **PORT 5**
+* Intake Right **PORT 5**
 
-*Intake Left **PORT 7**
+* Intake Left **PORT 7**
