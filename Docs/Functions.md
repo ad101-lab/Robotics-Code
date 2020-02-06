@@ -1,4 +1,4 @@
-﻿List of the functions and their uses
+**List of the functions and their uses**
 * moveForward(Centimeters, Speed(percent))
 * moveBackward(Centimeters, Speed(percent))
 * turnRight(Degrees, speed(percent))
