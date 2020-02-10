@@ -158,7 +158,7 @@ void motorHold(bool holding){
 }
 
 int oneBarUp(int distance, int speeds, bool stopping){
-  if(oneBar.rotation(rev) < 5 and distance > 0){
+  if(oneBar.rotation(rev) < 1.8 and distance > 0){
     oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
   }else if (oneBar.rotation(rev) > 0 and distance < 0) {
     oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
@@ -175,6 +175,11 @@ void oneBarStop(){
       oneBar.stop();
     }
   }
+}
+
+void resetEncoder(){
+  oneBar.setRotation(0, rev);
+
 }
 
 
@@ -195,15 +200,15 @@ void usercontrol(void) {//User Control
     leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
-    if (Controller2.ButtonL1.pressing() and !(cubeRamp.rotation(rev)>3.7)){//if button is pressing it will
+    if (Controller2.ButtonL1.pressing() and !(rampBumperForward.pressing())){//if button is pressing it will
       cubeRampValue = 85;//sets cube ramp to 85 RPM
-    } else if (Controller2.ButtonL2.pressing() and !(cubeRamp.rotation(rev)<0)) {//if button is pressing it will
+    } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {//if button is pressing it will
       cubeRampValue = -100;//sets cube ramp to -100 RPM
     } else {//if no others are true
       cubeRampValue = 0;//Stops cube ramp
     }
     cubeRamp.spin(forward, cubeRampValue , vex::velocityUnits::rpm);//applies the changes
-    if (Controller2.ButtonR1.pressing()){//if button is pressing it will
+    if (Controller2.ButtonR1.pressing() and !(intakeLeft.rotation(rev)>5)){//if button is pressing it will
       intakeValue = 100;//sets cube ramp to 100 RPM
     } else if (Controller2.ButtonR2.pressing()) {//if button is pressing it will
       intakeValue = -200;//sets cube ramp to -200 RPM
@@ -216,10 +221,10 @@ void usercontrol(void) {//User Control
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     }
-    if(Controller1.ButtonUp.pressing() and !(oneBar.rotation(rev)>1.7)){
-      oneBarValue = 200;
+    if(Controller1.ButtonUp.pressing() and !(oneBar.rotation(rev)>1.8)){
+      oneBarValue = 100;
     }else if (Controller1.ButtonDown.pressing()and !(oneBar.rotation(rev)<0)) {
-      oneBarValue = -200;
+      oneBarValue = -100;
     } else {
       oneBarValue = 0;
     }
