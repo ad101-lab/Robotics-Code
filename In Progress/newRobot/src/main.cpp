@@ -7,61 +7,44 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT12, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT13, ratio18_1, false);//Left FWD
-motor rightBack = motor(PORT14, ratio18_1, true);//Right Back
-motor leftBack = motor(PORT17, ratio18_1, false);//Letf Back
-motor cubeRamp = motor(PORT11, ratio36_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT15, ratio18_1, true);//Right intake global
-motor intakeLeft = motor(PORT16, ratio18_1, false);//Left intake
-motor oneBar = motor(PORT1, ratio36_1, false);
+motor rightFWD = motor(PORT20, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT9, ratio6_1, false);//Left FWD
+motor rightBack = motor(PORT11, ratio6_1, true);//Right Back
+motor leftBack = motor(PORT1, ratio6_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio36_1, false);//Cube ramp motor global
+motor intakeRight = motor(PORT5, ratio36_1, true);//Right intake global
+motor intakeLeft = motor(PORT7, ratio36_1, false);//Left intake
+motor oneBar = motor(PORT1, ratio36_1, true);
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(primary);
 
 int cubeRampValue;//Sets up integers to be used later
 int intakeValue;
-int cms;
-int tright;
-int tleft;
-int oneBarValue;
-int turnValue;
-int baseRPM;
+double cms;
+double tright;
+double tleft;
+double oneBarValue;
+double turnValue;
+double baseRPM;
+double degree;
 
-void moveForward(int cm, int speed){
-  leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
-  rightFWD.setVelocity(speed, percent);
-  leftBack.setVelocity(speed, percent);
-  rightBack.setVelocity(speed, percent);
-  cms = (cm/32) * 375;//Transfer to the degrees
-  leftFWD.spinFor(cms, degrees, false);//Spins the Motors
-  rightFWD.spinFor(cms, degrees, false);
-  leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
-  leftFWD.setVelocity(100, percent);//Resets the Velocity
-  rightFWD.setVelocity(100, percent);
-  leftBack.setVelocity(100, percent);
-  rightBack.setVelocity(100, percent);
-
+void moveForward(double cm, double speed, bool stopping){
+  degree = (cm/32) * 375;//Transfer to the degrees
+  leftFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  leftBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, stopping);
 } 
 
-void moveBackwards(int cm, int speed){
-  leftFWD.setVelocity(speed, percent);//Sets up the velocity of the motors
-  rightFWD.setVelocity(speed, percent);
-  leftBack.setVelocity(speed, percent);
-  rightBack.setVelocity(speed, percent);
-  cms = (cm/32) * -375;//Transfer to the degrees
-  leftFWD.spinFor(cms, degrees, false);//Spins the Motors
-  rightFWD.spinFor(cms, degrees, false);
-  leftBack.spinFor(cms, degrees, false);
-  rightBack.spinFor(cms, degrees, false);
-  leftFWD.setVelocity(100, percent);//Resets the Velocity
-  rightFWD.setVelocity(100, percent);
-  leftBack.setVelocity(100, percent);
-  rightBack.setVelocity(100, percent);
-
+void moveBackwards(double cm, double speed, bool stopping){
+  degree = (cm/32) * 375;//Transfer to the degrees
+  leftFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  leftBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
+  rightBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, stopping);
 }
 
-void turnRight(int degree){
+void turnRight(double degree){
   tright = degree * (335/90) * -1;//Sets the transvertion factors
   tleft  = degree * (335/90);
   leftFWD.setVelocity(100, rpm);
@@ -78,7 +61,7 @@ void turnRight(int degree){
   rightBack.setVelocity(200, rpm);
 }
 
-void turnLeft(int degree){
+void turnLeft(double degree){
   tright = degree * (335/90);//Sets the transvertion factors
   tleft  = degree * (335/90) * -1;
   leftFWD.setVelocity(100, rpm);
@@ -95,22 +78,22 @@ void turnLeft(int degree){
   rightBack.setVelocity(200, rpm);
 }
 
-void cubeRampVertical (bool degree, int speed){
+void cubeRampVertical (bool degree, double speed){
   cubeRamp.setVelocity(speed, rpm);//sets the velocity to the specified 
   if(degree == true){
     cubeRamp.spin(forward);//Spins motor Forward
-    waitUntil(cubeRamp.rotation(rev) > 3.7);//Waits until the bumper is pressed
+    waitUntil(rampBumperForward.pressing() == true);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }else if (degree == false) {
     cubeRamp.spin(reverse);//moves the motor backwards
-    waitUntil(cubeRamp.rotation(rev) < 0);//Waits until the bumper is pressed
+    waitUntil(rampBumper.pressing() == true);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }
   cubeRamp.setVelocity(100, percent);//Resets the velocity
 
 }
 
-void intake (int speed){
+void intake (double speed){
   intakeValue = speed*-1; //Conversion factor
   intakeLeft.spin(forward, intakeValue, rpm);//spins both intakes
   intakeRight.spin(forward, intakeValue, rpm);
@@ -121,7 +104,7 @@ void stack(){
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
-  moveBackwards(40, 30);//Back away
+  moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
 }
@@ -144,7 +127,6 @@ void motorHold(bool holding){
   rightFWD.setStopping(hold);
   leftBack.setStopping(hold);
   rightBack.setStopping(hold);
-  oneBar.setStopping(hold);
  }else{
   intakeRight.setStopping(coast);//Lets the motors coast if not
   intakeLeft.setStopping(coast);
@@ -153,7 +135,6 @@ void motorHold(bool holding){
   rightFWD.setStopping(coast);
   leftBack.setStopping(coast);
   rightBack.setStopping(coast);
-  oneBar.setStopping(coast);
  }
 }
 
