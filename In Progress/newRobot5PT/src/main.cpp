@@ -174,14 +174,10 @@ void usercontrol(void) {//User Control
     leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
-    if (Controller2.ButtonL1.pressing() and !(rampBumperForward.pressing())){//if button is pressing it will
+    if (Controller2.ButtonL1.pressing() and !(cubeRamp.rotation(rev)>3.7)){//if button is pressing it will
       cubeRampValue = 85;//sets cube ramp to 85 RPM
-    } else if (Controller2.ButtonL2.pressing() and !(rampBumper.pressing())) {//if button is pressing it will
+    } else if (Controller2.ButtonL2.pressing() and !(cubeRamp.rotation(rev)<0)) {//if button is pressing it will
       cubeRampValue = -100;//sets cube ramp to -100 RPM
-    } else if (Controller2.ButtonUp.pressing()) {//if button is pressing it will
-      cubeRampVertical(true, 80);//moves cube ramp up
-    } else if (Controller2.ButtonDown.pressing()){//if button is pressing it will
-      cubeRampVertical(false, 80);//moves cube ramp down
     } else {//if no others are true
       cubeRampValue = 0;//Stops cube ramp
     }
@@ -199,10 +195,10 @@ void usercontrol(void) {//User Control
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     }
-    if(Controller1.ButtonUp.pressing()){
-      oneBarValue = 100;
-    }else if (Controller1.ButtonDown.pressing()) {
-      oneBarValue = -100;
+    if(Controller1.ButtonUp.pressing() and !(oneBar.rotation(rev)>1.7)){
+      oneBarValue = 200;
+    }else if (Controller1.ButtonDown.pressing()and !(oneBar.rotation(rev)<0)) {
+      oneBarValue = -200;
     } else {
       oneBarValue = 0;
     }
@@ -220,6 +216,7 @@ void usercontrol(void) {//User Control
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes
     intakeRight.spin(forward, intakeValue , vex::velocityUnits::rpm);
     wait(20, msec); // Sleep the task for a short amount of time to
+    Brain.Screen.print(oneBar.rotation(rev));
   }
 }
 
