@@ -99,11 +99,11 @@ void cubeRampVertical (bool degree, int speed){
   cubeRamp.setVelocity(speed, rpm);//sets the velocity to the specified 
   if(degree == true){
     cubeRamp.spin(forward);//Spins motor Forward
-    waitUntil(rampBumperForward.pressing() == true);//Waits until the bumper is pressed
+    waitUntil(cubeRamp.rotation(rev) > 3.7);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }else if (degree == false) {
     cubeRamp.spin(reverse);//moves the motor backwards
-    waitUntil(rampBumper.pressing() == true);//Waits until the bumper is pressed
+    waitUntil(cubeRamp.rotation(rev) < 0);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }
   cubeRamp.setVelocity(100, percent);//Resets the velocity
