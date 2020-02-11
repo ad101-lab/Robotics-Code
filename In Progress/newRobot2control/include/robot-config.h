@@ -8,8 +8,8 @@ extern motor rightBack;
 extern motor CubeRamp;
 extern motor intakeRight;
 extern motor intakeLeft;
-extern controller controller1;
-extern gyro TurnGyroSmart;
+extern controller Controller1;
+extern controller Controller2;
 extern bumper rampBumper;
 extern bumper rampBumperForward;
 /**
