@@ -138,7 +138,7 @@ void motorHold(bool holding){
  }
 }
 
-int oneBarUp(double distance, double speeds, bool stopping){
+int oneBarUp(int distance, int speeds, bool stopping){
   if(oneBar.rotation(rev) < 5 and distance > 0){
     oneBar.spinFor(forward, distance/15, degrees, speeds, velocityUnits::rpm, stopping);//1:15 gear ratio
   }else if (oneBar.rotation(rev) > 0 and distance < 0) {
@@ -148,14 +148,6 @@ int oneBarUp(double distance, double speeds, bool stopping){
     return false;
   }
   return true;
-}
-
-void oneBarStop(){
-  while(1){
-    if(oneBar.rotation(rev) > 5 or oneBar.rotation(rev) < 0){
-      oneBar.stop();
-    }
-  }
 }
 
 
