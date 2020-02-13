@@ -85,10 +85,6 @@ Discarded input sections
                 0x00000000      0x190 build/src/main.o
  .ARM.exidx.text._Z11oneBarTowerSs
                 0x00000000        0x8 build/src/main.o
- .text._Z10oneBarStopv
-                0x00000000       0x64 build/src/main.o
- .ARM.exidx.text._Z10oneBarStopv
-                0x00000000        0x8 build/src/main.o
  .text._Z9pre_autonv
                 0x00000000        0x8 build/src/main.o
  .ARM.exidx.text._Z9pre_autonv
@@ -3213,7 +3209,7 @@ LOAD C:\Program Files (x86)\VEX Robotics\VEXcode V5 Text\sdk/vexv5/gcc/libs\libc
 LOAD C:\Program Files (x86)\VEX Robotics\VEXcode V5 Text\sdk/vexv5/gcc/libs\libm.a
 LOAD C:\Program Files (x86)\VEX Robotics\VEXcode V5 Text\sdk/vexv5/gcc/libs\libgcc.a
 END GROUP
-OUTPUT(build/newRobot2control.elf elf32-littlearm)
+OUTPUT(build/newRobot2controlheaders.elf elf32-littlearm)
 
 .comment        0x00000000       0x9d
  .comment       0x00000000       0x2d build/src/main.o
