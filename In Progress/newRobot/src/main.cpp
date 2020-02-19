@@ -7,14 +7,14 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio6_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio6_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio6_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio36_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio36_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio36_1, false);//Left intake
-motor oneBar = motor(PORT1, ratio36_1, true);
+motor rightFWD = motor(PORT12, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT13, ratio6_1, false);//Left FWD
+motor rightBack = motor(PORT14, ratio6_1, true);//Right Back
+motor leftBack = motor(PORT17, ratio6_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio36_1, true);//Cube ramp motor global
+motor intakeRight = motor(PORT15, ratio36_1, true);//Right intake global
+motor intakeLeft = motor(PORT16, ratio36_1, false);//Left intake
+motor oneBar = motor(PORT1, ratio36_1, false);
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(primary);
 
