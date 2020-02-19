@@ -149,7 +149,6 @@ void motorHold(bool holding){
   rightFWD.setStopping(hold);
   leftBack.setStopping(hold);
   rightBack.setStopping(hold);
-  oneBar.setStopping(hold);
  }else{
   intakeRight.setStopping(coast);//Lets the motors coast if not
   intakeLeft.setStopping(coast);
@@ -158,7 +157,6 @@ void motorHold(bool holding){
   rightFWD.setStopping(coast);
   leftBack.setStopping(coast);
   rightBack.setStopping(coast);
-  oneBar.setStopping(coast);
  }
 }
 

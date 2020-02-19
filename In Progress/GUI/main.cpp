@@ -23,27 +23,15 @@ Link to website: https://dev.azure.com/roboVEX/_git/ACCESS_OS
 #include "robot-config.h"
 #endif
 //Drive system class
-#ifndef ROBOT_C
-#define ROBOT_C
-#include "robot-base.cpp"
-#endif
 //ACCESS_OS file
 #ifndef ACCESS_OS_C
 #define ACCESS_OS_C
 #include "ACCESS_OS.cpp"
 #endif
 
-ROBOT_BASE ROBOT;
-ACCESS_OS OS;
-
 /*------------------------------------------------------------------------------------------------------
 [GLOBAL] Variables > Global variables for functions
 ------------------------------------------------------------------------------------------------------*/
-
-//Movement const variables + calculations
-const int circumference = (wheelDiameter * M_PI);	//M_PI is from the math library
-const int oneTile = (360 * tileSize) / circumference;	//Calculate how many degrees it takes to move oneTile
-const int rotateTile = oneTile / 2;	//If both motors spin at opposite directions at half of oneTile, it will turn 90 degrees
 
 //For checking status
 int tempStatus = 0;
