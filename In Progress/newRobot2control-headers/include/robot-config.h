@@ -199,7 +199,6 @@ void pickAuton (){
   while(!Controller1.ButtonA.pressing()){
     Brain.print(auton);
     if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
-      autonSide = !autonSide;
       if(autonSide = true){
         auton = "RED";
       }else{
