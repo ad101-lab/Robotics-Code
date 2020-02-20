@@ -41,7 +41,9 @@ double turnValue;
 double baseRPM;
 double degree;
 double oneBarRotation;
+bool autonChoice = false;
 std::string tower;
+std::string auton= "Red";
 
 void moveForward(double cm, double speed, bool stopping){
   degree = (cm/32) * 375;//Transfer to the degrees
@@ -190,6 +192,11 @@ void oneBarTower(std::string tower){
   } else if(goal > oneBarRotation){
     oneBar.spin(reverse, 100, pct);
   }
-  
 }
 
+int pickAuton (){
+  task::sleep(100);
+  while(!Controller1.ButtonA.pressing()){
+    Brain.print(auton);
+    if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
+      
