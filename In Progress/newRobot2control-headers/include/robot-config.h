@@ -41,7 +41,7 @@ double turnValue;
 double baseRPM;
 double degree;
 double oneBarRotation;
-bool autonChoice = false;
+bool autonSide = false;
 std::string tower;
 std::string auton= "Red";
 
@@ -194,9 +194,20 @@ void oneBarTower(std::string tower){
   }
 }
 
-int pickAuton (){
+void pickAuton (){
   task::sleep(100);
   while(!Controller1.ButtonA.pressing()){
     Brain.print(auton);
     if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
-      
+      autonSide = !autonSide;
+      if(autonSide = true){
+        auton = "RED";
+      }else{
+        auton = "BLUE";
+      }
+      Controller1.screen.setCursor(1, 1);
+      Controller1.screen.clearScreen();
+      Controller1.screen.print(auton);
+    }
+  }
+}
