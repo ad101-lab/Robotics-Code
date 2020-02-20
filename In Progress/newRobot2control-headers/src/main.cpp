@@ -1,5 +1,4 @@
 #include "robot-config.h"
-#include "vex.h"
 using namespace vex;
 
 void pre_auton(void) {
