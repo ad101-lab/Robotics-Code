@@ -208,19 +208,55 @@ void oneBarTower(std::string tower){
   }
 }
 
+
+int redAuton(){
+  intake(100);
+  oneBarUp(45, 100, true);
+  oneBarUp(-45, 100, true);
+  moveForward(110, 10, true);
+  intake(0);
+  moveBackwards(54, 50, true);
+  turnRight(180);
+  moveForward(63.5, 10, true);
+  intake(0);
+  stack();
+  return 1;
+}
+
+int blueAuton(){
+  intake(100);
+  oneBarUp(45, 100, true);
+  oneBarUp(-45, 100, true);
+  moveForward(110, 10, true);
+  intake(0);
+  moveBackwards(54, 50, true);
+  turnLeft(180);
+  moveForward(63.5, 10, true);
+  intake(0);
+  stack();
+  return 1;
+}
+
 void pickAuton (){
   task::sleep(100);
   while(!Controller1.ButtonA.pressing()){
-    Brain.print(auton);
+    Brain.Screen.print(auton);
     if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
-      if(autonSide = true){
+      if(autonSide == true){
         auton = "RED";
       }else{
         auton = "BLUE";
       }
-      Controller1.screen.setCursor(1, 1);
-      Controller1.screen.clearScreen();
-      Controller1.screen.print(auton);
+      Controller1.Screen.setCursor(1, 1);
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.print(auton);
+      task::sleep(50);
     }
   }
+  if(auton == "RED"){
+    task redAutonomous(redAuton);
+  } else{
+    task blueAutonomous(blueAuton);
+  }
 }
+
