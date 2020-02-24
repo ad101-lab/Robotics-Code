@@ -3,12 +3,14 @@ using namespace vex;
 
 void pre_auton(void) {
   motorHold(true);
+  pickAuton();
 }
 
 void autonomous(void) {
   intake(100);
   oneBarUp(45, 100, true);
   oneBarUp(-45, 100, true);
+  runAuton();
   //moveForward(, int speed)
 }
 

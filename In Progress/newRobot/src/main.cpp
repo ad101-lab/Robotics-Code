@@ -47,35 +47,35 @@ void moveBackwards(double cm, double speed, bool stopping){
 void turnRight(double degree){
   tright = degree * (335/90) * -1;//Sets the transvertion factors
   tleft  = degree * (335/90);
-  leftFWD.setVelocity(100, rpm);
-  leftBack.setVelocity(100, rpm);
-  rightFWD.setVelocity(100, rpm);
-  rightBack.setVelocity(100, rpm);
+  leftFWD.setVelocity(80, rpm);
+  leftBack.setVelocity(80, rpm);
+  rightFWD.setVelocity(80, rpm);
+  rightBack.setVelocity(80, rpm);
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//Spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
   rightBack.spinFor(tright, vex::rotationUnits::deg, false);
-  leftFWD.setVelocity(200, rpm);
-  leftBack.setVelocity(200, rpm);
-  rightFWD.setVelocity(200, rpm);
-  rightBack.setVelocity(200, rpm);
+  leftFWD.setVelocity(80, rpm);
+  leftBack.setVelocity(80, rpm);
+  rightFWD.setVelocity(80, rpm);
+  rightBack.setVelocity(80, rpm);
 }
 
 void turnLeft(double degree){
   tright = degree * (335/90);//Sets the transvertion factors
   tleft  = degree * (335/90) * -1;
-  leftFWD.setVelocity(100, rpm);
-  leftBack.setVelocity(100, rpm);
-  rightFWD.setVelocity(100, rpm);
-  rightBack.setVelocity(100, rpm);
+  leftFWD.setVelocity(80, rpm);
+  leftBack.setVelocity(80, rpm);
+  rightFWD.setVelocity(80, rpm);
+  rightBack.setVelocity(80, rpm);
   leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//spins the motor
   leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
   rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
   rightBack.spinFor(tright, vex::rotationUnits::deg, false);
-  leftFWD.setVelocity(200, rpm);
-  leftBack.setVelocity(200, rpm);
-  rightFWD.setVelocity(200, rpm);
-  rightBack.setVelocity(200, rpm);
+  leftFWD.setVelocity(80, rpm);
+  leftBack.setVelocity(80, rpm);
+  rightFWD.setVelocity(80,rpm);
+  rightBack.setVelocity(80, rpm);
 }
 
 void cubeRampVertical (bool degree, double speed){
@@ -89,7 +89,7 @@ void cubeRampVertical (bool degree, double speed){
     waitUntil(rampBumper.pressing() == true);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }
-  cubeRamp.setVelocity(100, percent);//Resets the velocity
+  cubeRamp.setVelocity(75, percent);//Resets the velocity//Velocity meaning speed?? Hopefully...
 
 }
 
@@ -164,9 +164,10 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-  intake(100);
-  oneBarUp(45, 100, true);
-  oneBarUp(-45, 100, true);
+  moveForward(100,100,false);
+  intake(-100);
+  wait(3, seconds);
+  moveBackwards(-100,100,true);
   //moveForward(, int speed)
 }
 

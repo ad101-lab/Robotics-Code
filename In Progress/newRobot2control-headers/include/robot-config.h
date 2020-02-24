@@ -58,6 +58,7 @@ double oneBarRotation;
 bool autonSide = false;
 std::string tower;
 std::string auton= "Red";
+std::string Auton;
 
 void moveForward(double cm, double speed, bool stopping){
   degree = (cm/32) * 375;//Transfer to the degrees
@@ -240,8 +241,8 @@ int blueAuton(){
 void pickAuton (){
   task::sleep(100);
   while(!Controller1.ButtonA.pressing()){
-    Brain.Screen.print(auton);
     if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
+      autonSide = !autonSide;
       if(autonSide == true){
         auton = "RED";
       }else{
@@ -250,13 +251,16 @@ void pickAuton (){
       Controller1.Screen.setCursor(1, 1);
       Controller1.Screen.clearScreen();
       Controller1.Screen.print(auton);
-      task::sleep(50);
+      task::sleep(200);
     }
+    task::sleep(20);
   }
+}
+
+void runAuton(){
   if(auton == "RED"){
     task redAutonomous(redAuton);
   } else{
     task blueAutonomous(blueAuton);
   }
 }
-
