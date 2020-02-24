@@ -209,6 +209,9 @@ void oneBarTower(std::string tower){
   }
 }
 
+void flipOut(){
+  
+}
 
 int redAuton(){
   intake(100);
