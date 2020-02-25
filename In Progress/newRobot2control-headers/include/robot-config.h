@@ -57,8 +57,6 @@ double degree;
 double oneBarRotation;
 bool autonSide = false;
 std::string tower;
-std::string auton= "Red";
-std::string Auton;
 
 void moveForward(double cm, double speed, bool stopping){
   degree = (cm/32) * 375;//Transfer to the degrees
@@ -200,9 +198,7 @@ void oneBarTower(std::string tower){
     goal = 1.2;
   }else if (tower == "Low" or tower == "low" or tower == "alliance" or tower == "Alliance") {
     goal = 0.7;
-  } else {
-    //the lack of something makes this space aquard
-  };
+  } else {};
   oneBar.spinTo(goal, rev);
 }
 
@@ -235,27 +231,33 @@ int blueAuton(){
   return 1;
 }
 
-void pickAuton (){
+int pickAuton (){
   task::sleep(100);
   while(!Controller1.ButtonA.pressing()){
     if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
       autonSide = !autonSide;
       if(autonSide == true){
-        auton = "RED";
+        Controller1.Screen.setCursor(1, 1);
+        Controller1.Screen.clearScreen();
+        Controller1.Screen.print("RED");
       }else{
-        auton = "BLUE";
+        Controller1.Screen.setCursor(1, 1);
+        Controller1.Screen.clearScreen();
+        Controller1.Screen.print("BLUE");
       }
-      /*Controller1.Screen.setCursor(1, 1);
-      Controller1.Screen.clearScreen();
-      Controller1.Screen.print(auton);*/
       task::sleep(200);
     }
     task::sleep(20);
   }
+  return 1;
+}
+
+int  pickSide(){
+  return 1;
 }
 
 void runAuton(){
-  if(auton == "RED"){
+  if(autonSide == true){
     task redAutonomous(redAuton);
   } else{
     task blueAutonomous(blueAuton);
