@@ -3,25 +3,23 @@ using namespace vex;
 
 void pre_auton(void) {
   motorHold(true);
-  pickAuton();
+  //pickAuton();
 }
 
 void autonomous(void) {
-  intake(100);
-  oneBarUp(45, 100, true);
-  oneBarUp(-45, 100, true);
-  runAuton();
+  //flipOut();
+  //runAuton();
   //moveForward(, int speed)
 }
 
 void usercontrol(void) {//User Control
-  while (1) {
+  while (true) {
     rightFWD.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);//Tank Drive controls
     leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
     if (Controller2.ButtonL1.pressing() and !(cubeRamp.rotation(rev)>3.7)){//if button is pressing it will
-      cubeRampValue = cubeRamp.rotation(rev);//sets cube ramp to 85 RPM
+      cubeRampValue = 70;//sets cube ramp to 85 RPM
     } else if (Controller2.ButtonL2.pressing() and !(cubeRamp.rotation(rev)<0)) {//if button is pressing it will
       cubeRampValue = -100;//sets cube ramp to -100 RPM
     } else {//if no others are true
@@ -36,13 +34,14 @@ void usercontrol(void) {//User Control
       intakeValue = -50;//sets cube ramp to -50 RPM
     }else if(Controller1.ButtonB.pressing()){//if button is pressing it will
       intakeValue = 45;//sets cube ramp to 45 RPM
-    } else if(Controller2.ButtonX.pressing()){//if button is pressing it will
-      stack();//Stacks
+    } else if(Controller2.ButtonY.pressing()){//if button is pressing it will
+      task stacking(stack);//Stacks
     } else {//If no other conditions are true
       intakeValue = 0;//sets cube ramp to -100 RPM
     }
     if(Controller2.ButtonUp.pressing() and !(oneBar.rotation(rev)>1.7)){
       oneBarValue = 200;
+      cubeRampValue += 50;
     }else if (Controller2.ButtonDown.pressing()and !(oneBar.rotation(rev)<0)) {
       oneBarValue = -200;
     } else {
@@ -59,6 +58,11 @@ void usercontrol(void) {//User Control
       turnValue = 3;
     } else{
       turnValue = 1;
+    }
+    if (Controller2.ButtonX.pressing()){
+      oneBarTower("mid");
+    } else if (Controller2.ButtonB.pressing()) {
+      oneBarTower("low");
     }
     oneBar.spin(forward, oneBarValue, pct);
     intakeLeft.spin(forward, intakeValue , vex::velocityUnits::rpm);//applies the changes

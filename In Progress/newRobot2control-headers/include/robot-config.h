@@ -34,14 +34,14 @@ competition Competition;
 brain Brain;
 bumper rampBumper        = bumper(Brain.ThreeWirePort.H);//Sets up the Globals of The limit bumpers
 bumper rampBumperForward = bumper(Brain.ThreeWirePort.G);
-motor rightFWD = motor(PORT20, ratio6_1, true);//Sets up the drivetrain motors(rightFWD)
-motor leftFWD = motor(PORT9, ratio6_1, false);//Left FWD
-motor rightBack = motor(PORT11, ratio6_1, true);//Right Back
-motor leftBack = motor(PORT1, ratio6_1, false);//Letf Back
-motor cubeRamp = motor(PORT6, ratio36_1, false);//Cube ramp motor global
-motor intakeRight = motor(PORT5, ratio36_1, true);//Right intake global
-motor intakeLeft = motor(PORT7, ratio36_1, false);//Left intake
-motor oneBar = motor(PORT1, ratio36_1, true);
+motor rightFWD = motor(PORT12, ratio18_1, true);//Sets up the drivetrain motors(rightFWD)
+motor leftFWD = motor(PORT13, ratio18_1, false);//Left FWD
+motor rightBack = motor(PORT14, ratio18_1, true);//Right Back
+motor leftBack = motor(PORT17, ratio18_1, false);//Letf Back
+motor cubeRamp = motor(PORT6, ratio36_1, true);//Cube ramp motor global
+motor intakeRight = motor(PORT15, ratio18_1, true);//Right intake global
+motor intakeLeft = motor(PORT16, ratio18_1, false);//Left intake
+motor oneBar = motor(PORT1, ratio36_1, false);
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(partner);
 
@@ -139,13 +139,14 @@ void intake (double speed){
 
 }
 
-void stack(){
+int stack(){
   cubeRampVertical(true, 70);//Move the cube ramp up
   intake(-100);//Prepares to move away
   wait(0.3, seconds);//waits
   moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
+  return 1;
 }
 
 void motorWait(){
@@ -202,11 +203,7 @@ void oneBarTower(std::string tower){
   } else {
     //the lack of something makes this space aquard
   };
-  if(goal < oneBarRotation){
-    oneBar.spin(forward, 100, pct);
-  } else if(goal > oneBarRotation){
-    oneBar.spin(reverse, 100, pct);
-  }
+  oneBar.spinTo(goal, rev);
 }
 
 void flipOut(){
@@ -214,9 +211,6 @@ void flipOut(){
 }
 
 int redAuton(){
-  intake(100);
-  oneBarUp(45, 100, true);
-  oneBarUp(-45, 100, true);
   moveForward(110, 10, true);
   intake(0);
   moveBackwards(54, 50, true);
@@ -251,9 +245,9 @@ void pickAuton (){
       }else{
         auton = "BLUE";
       }
-      Controller1.Screen.setCursor(1, 1);
+      /*Controller1.Screen.setCursor(1, 1);
       Controller1.Screen.clearScreen();
-      Controller1.Screen.print(auton);
+      Controller1.Screen.print(auton);*/
       task::sleep(200);
     }
     task::sleep(20);
