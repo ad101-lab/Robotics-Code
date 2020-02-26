@@ -56,6 +56,8 @@ double baseRPM;
 double degree;
 double oneBarRotation;
 bool autonSide = false;
+bool autonColor;
+bool userControlEnabled = false;
 std::string tower;
 
 void moveForward(double cm, double speed, bool stopping){
@@ -206,7 +208,7 @@ void flipOut(){
   
 }
 
-int redAuton(){
+int redAutonBottom(){
   moveForward(110, 10, true);
   intake(0);
   moveBackwards(54, 50, true);
@@ -217,7 +219,7 @@ int redAuton(){
   return 1;
 }
 
-int blueAuton(){
+int blueAutonBottom(){
   intake(100);
   oneBarUp(45, 100, true);
   oneBarUp(-45, 100, true);
@@ -231,35 +233,56 @@ int blueAuton(){
   return 1;
 }
 
-int pickAuton (){
-  task::sleep(100);
-  while(!Controller1.ButtonA.pressing()){
-    if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
-      autonSide = !autonSide;
-      if(autonSide == true){
-        Controller1.Screen.setCursor(1, 1);
-        Controller1.Screen.clearScreen();
-        Controller1.Screen.print("RED");
-      }else{
-        Controller1.Screen.setCursor(1, 1);
-        Controller1.Screen.clearScreen();
-        Controller1.Screen.print("BLUE");
-      }
-      task::sleep(200);
-    }
-    task::sleep(20);
-  }
+int redAutonTop(){
   return 1;
 }
 
-int  pickSide(){
+int blueAutonTop(){
+  return 1;
+}
+
+int pickAuton (){
+  task::sleep(100);
+  userControlEnabled = false;
+  while(!Controller1.ButtonA.pressing()){
+    if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
+      autonSide = !autonSide;     
+      task::sleep(200);
+    }else if(Controller1.ButtonUp.pressing() or Controller1.ButtonDown.pressing()){
+      autonColor = !autonColor;     
+      task::sleep(200);
+    }else{}
+    if(autonColor and autonSide){
+      Controller1.Screen.setCursor(1, 1);
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.print("RED, TOP");
+    } else if(autonColor and !autonSide){
+      Controller1.Screen.setCursor(1, 1);
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.print("RED, BOTTOM");
+    } else if(!autonColor and autonSide){
+      Controller1.Screen.setCursor(1, 1);
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.print("BLUE, TOP");
+    } else if(!autonColor and !autonSide){
+      Controller1.Screen.setCursor(1, 1);
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.print("BLUE, BOTTOM");
+    }
+    task::sleep(20);
+  }
+  userControlEnabled = true;
   return 1;
 }
 
 void runAuton(){
-  if(autonSide == true){
-    task redAutonomous(redAuton);
-  } else{
-    task blueAutonomous(blueAuton);
+  if(autonColor and autonSide){
+    task redAutonomousTop(redAutonTop);
+  } else if(autonColor and !autonSide){
+    task redAutonomousBottom(redAutonBottom);
+  } else if(!autonColor and autonSide){
+    task blueAutonomousTop(blueAutonTop);
+  } else if(!autonColor and !autonSide){
+    task blueAutonomousBottom(blueAutonBottom);
   }
 }
