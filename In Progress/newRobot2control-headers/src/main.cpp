@@ -2,6 +2,7 @@
 using namespace vex;
 
 void pre_auton(void) {
+  task userControls(userControl);
   motorHold(true);
   task pickAutonmous(pickAuton);
 }
@@ -15,7 +16,6 @@ void autonomous(void) {
 
 void usercontrol(void) {//User Control
   userControlEnabled = true;
-  task userControls(userControl);
 }
 
 int main() {

@@ -246,10 +246,10 @@ int pickAuton (){
   userControlEnabled = false;
   while(!Controller1.ButtonA.pressing()){
     if(Controller1.ButtonRight.pressing() or Controller1.ButtonLeft.pressing()){
-      autonSide = !autonSide;     
+      autonColor = !autonColor;     
       task::sleep(200);
     }else if(Controller1.ButtonUp.pressing() or Controller1.ButtonDown.pressing()){
-      autonColor = !autonColor;     
+      autonSide = !autonSide;     
       task::sleep(200);
     }else{}
     if(autonColor and autonSide){
