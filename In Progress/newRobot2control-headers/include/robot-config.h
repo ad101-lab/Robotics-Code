@@ -121,11 +121,11 @@ void cubeRampVertical (bool degree, double speed){
   cubeRamp.setVelocity(speed, rpm);//sets the velocity to the specified 
   if(degree == true){
     cubeRamp.spin(forward);//Spins motor Forward
-    waitUntil(rampBumperForward.pressing() == true);//Waits until the bumper is pressed
+    waitUntil(cubeRamp.rotation(rev)> 2.7);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }else if (degree == false) {
     cubeRamp.spin(reverse);//moves the motor backwards
-    waitUntil(rampBumper.pressing() == true);//Waits until the bumper is pressed
+    waitUntil(cubeRamp.rotation(rev)< 0);//Waits until the bumper is pressed
     cubeRamp.stop();//Stops the mmotor
   }
   cubeRamp.setVelocity(100, percent);//Resets the velocity
@@ -141,8 +141,6 @@ void intake (double speed){
 
 int stack(){
   cubeRampVertical(true, 70);//Move the cube ramp up
-  intake(-100);//Prepares to move away
-  wait(0.3, seconds);//waits
   moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
@@ -209,27 +207,27 @@ void flipOut(){
 }
 
 int redAutonBottom(){
-  moveForward(110, 10, true);
-  intake(0);
-  moveBackwards(54, 50, true);
-  turnRight(180);
-  moveForward(63.5, 10, true);
-  intake(0);
-  stack();
+  moveForward(110, 50, true);
+  //intake(0);
+  //moveForward(-54, 100, true);
+  //turnRight(180);
+  //moveForward(63.5, 10, true);
+  //intake(0);
+  //stack();
   return 1;
 }
 
 int blueAutonBottom(){
-  intake(100);
-  oneBarUp(45, 100, true);
-  oneBarUp(-45, 100, true);
+//  intake(100);
+//  oneBarUp(45, 100, true);
+//  oneBarUp(-45, 100, true);
   moveForward(110, 10, true);
-  intake(0);
-  moveBackwards(54, 50, true);
-  turnLeft(180);
-  moveForward(63.5, 10, true);
-  intake(0);
-  stack();
+//  intake(0);
+//  moveBackwards(54, 50, true);
+//  turnLeft(180);
+//  moveForward(63.5, 10, true);
+//  intake(0);
+//  stack();
   return 1;
 }
 
