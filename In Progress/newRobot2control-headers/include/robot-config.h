@@ -288,3 +288,10 @@ void runAuton(){
     task blueAutonomousBottom(blueAutonBottom);
   }
 }
+
+void calibrateInertial(){
+  turnInertial.calibrate();
+  while(turnInertial.isCalibrating){
+    task::sleep(300);
+  }
+}
