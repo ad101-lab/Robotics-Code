@@ -82,15 +82,15 @@ void turnRight(double degree, double speed){
   rightBack.spin(reverse, speed, pct);
   task::sleep(200);
   double difference=  degree - turnInertial.rotation();
-  while(difference>20){
-    difference=  degree + -turnInertial.rotation();
+  while(difference>30){
+    difference=  degree - turnInertial.rotation();
     task::sleep(50);
   }
-  leftFWD.spin(forward, speed*0.3, pct);
-  rightFWD.spin(reverse, speed*0.3, pct);
-  leftBack.spin(forward, speed*0.3, pct);
-  rightBack.spin(reverse, speed*0.3, pct);
-  waitUntil(turnInertial.rotation() == (degree));
+  leftFWD.spin(forward, speed*0.2, pct);
+  rightFWD.spin(reverse, speed*0.2, pct);
+  leftBack.spin(forward, speed*0.2, pct);
+  rightBack.spin(reverse, speed*0.2, pct);
+  waitUntil(turnInertial.rotation() < (degree-2));
   leftFWD.stop();
   rightFWD.stop();
   leftBack.stop();

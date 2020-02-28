@@ -4,7 +4,7 @@ using namespace vex;
 void pre_auton(void) {
   task userControls(userControl);
   motorHold(true);
-  turnRight(360, 90);
+  turnRight(360, 100);
   task pickAutonmous(pickAuton);
 }
 
