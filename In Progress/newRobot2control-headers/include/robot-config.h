@@ -23,10 +23,9 @@ extern motor rightBack;
 extern motor CubeRamp;
 extern motor intakeRight;
 extern motor intakeLeft;
+extern inertial turnInertial;
 extern controller Controller1;
 extern controller Controller2;
-extern bumper rampBumper;
-extern bumper rampBumperForward;
 using namespace vex;
 
 competition Competition;
@@ -42,6 +41,7 @@ motor cubeRamp = motor(PORT6, ratio36_1, true);//Cube ramp motor global
 motor intakeRight = motor(PORT15, ratio18_1, true);//Right intake global
 motor intakeLeft = motor(PORT16, ratio18_1, false);//Left intake
 motor oneBar = motor(PORT1, ratio36_1, false);
+inertial turnInertial = inertial(PORT20);
 controller Controller1        = controller(primary);//Sets up controllers
 controller Controller2        = controller(partner);
 
@@ -62,35 +62,39 @@ std::string tower;
 
 void moveForward(double cm, double speed, bool stopping){
   degree = (cm/32) * 375;//Transfer to the degrees
-  leftFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
-  rightFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
-  leftBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
-  rightBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, stopping);
+  leftFWD.spinFor(forward, cm, rev, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, cm, rev, speed, velocityUnits::pct, false);
+  leftBack.spinFor(forward, cm, rev, speed, velocityUnits::pct, false);
+  rightBack.spinFor(forward, cm, rev, speed, velocityUnits::pct, stopping);
 } 
 
 void moveBackwards(double cm, double speed, bool stopping){
-  degree = (cm/32) * 375;//Transfer to the degrees
-  leftFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
-  rightFWD.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
-  leftBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, false);
-  rightBack.spinFor(forward, degree, degrees, speed, velocityUnits::pct, stopping);
+  leftFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
+  leftBack.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
+  rightBack.spinFor(reverse, cm, rev, speed, velocityUnits::pct, stopping);
 }
 
-void turnRight(double degree){
-  tright = degree * (335/90) * -1;//Sets the transvertion factors
-  tleft  = degree * (335/90);
-  leftFWD.setVelocity(100, rpm);
-  leftBack.setVelocity(100, rpm);
-  rightFWD.setVelocity(100, rpm);
-  rightBack.setVelocity(100, rpm);
-  leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//Spins the motor
-  leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
-  rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
-  rightBack.spinFor(tright, vex::rotationUnits::deg, false);
-  leftFWD.setVelocity(200, rpm);
-  leftBack.setVelocity(200, rpm);
-  rightFWD.setVelocity(200, rpm);
-  rightBack.setVelocity(200, rpm);
+void turnRight(double degree, double speed){
+  leftFWD.spin(forward, speed, pct);
+  rightFWD.spin(reverse, speed, pct);
+  leftBack.spin(forward, speed, pct);
+  rightBack.spin(reverse, speed, pct);
+  task::sleep(200);
+  double difference=  degree - turnInertial.rotation();
+  while(difference>20){
+    difference=  degree + -turnInertial.rotation();
+    task::sleep(50);
+  }
+  leftFWD.spin(forward, speed*0.3, pct);
+  rightFWD.spin(reverse, speed*0.3, pct);
+  leftBack.spin(forward, speed*0.3, pct);
+  rightBack.spin(reverse, speed*0.3, pct);
+  waitUntil(turnInertial.rotation() == (degree));
+  leftFWD.stop();
+  rightFWD.stop();
+  leftBack.stop();
+  rightBack.stop();
 }
 
 void turnLeft(double degree){
@@ -190,16 +194,16 @@ int oneBarUp(int distance, int speeds, bool stopping){
   return true;
 }
 
-void oneBarTower(std::string tower){
+void oneBarTower(std::string tower, bool waiting){
   double goal;
   if(tower == "High" or tower =="high"){
-    goal = 1.7;
+    goal = 2.3;
   } else if (tower == "Mid" or tower == "Middle" or tower == "mid" or tower == "middle") {
-    goal = 1.2;
+    goal = 2.2;
   }else if (tower == "Low" or tower == "low" or tower == "alliance" or tower == "Alliance") {
     goal = 0.7;
   } else {};
-  oneBar.spinTo(goal, rev);
+  oneBar.spinTo(goal, rev, waiting);
 }
 
 void flipOut(){
