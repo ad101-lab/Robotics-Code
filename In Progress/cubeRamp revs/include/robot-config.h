@@ -145,21 +145,11 @@ void intake (double speed){
 }
 
 int stack(){
-  double speeds;
-  while(cubeRamp.rotation(rev)<3.5){
-    speeds = (cubeRamp.rotation(rev)*-26)+100;
-    cubeRamp.spin(forward, speeds, pct);
-    if(cubeRamp.rotation(rev)>2){
-      intake(-100);
-    }
-  }
-  intake(0);
-  cubeRamp.spin(reverse);//Puts the cube ramp down
-  waitUntil(cubeRamp.rotation(rev)<0);
-  cubeRamp.stop();
-  intake(-100);//Stops the intake
-  moveBackwards(30, 100, true);
-  intake(0);
+  cubeRampVertical(true, 60);//Move the cube ramp up
+  moveBackwards(20, 100, false);//Back away
+  intake(-100);
+  cubeRampVertical(false, 100);//Puts the cube ramp down
+  intake(0);//Stops the intake
   return 1;
 }
 
