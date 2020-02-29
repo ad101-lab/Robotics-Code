@@ -68,6 +68,13 @@ void moveForward(double cm, double speed, bool stopping){
   rightBack.spinFor(forward, cm, rev, speed, velocityUnits::pct, stopping);
 } 
 
+void moveBackwards(double cm, double speed, bool stopping){
+  leftFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
+  leftBack.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
+  rightBack.spinFor(reverse, cm, rev, speed, velocityUnits::pct, stopping);
+}
+
 void moveForwardAccurate(double cm, double speed){
   leftFWD.spinFor(forward, cm-1, rev, speed, velocityUnits::pct, false);
   rightFWD.spinFor(forward, cm-1, rev, speed, velocityUnits::pct, false);
@@ -90,13 +97,6 @@ void moveBackwardsAccurate(double cm, double speed){
   rightBack.spinFor(reverse, cm-0.1, rev, speed*0.1, velocityUnits::pct, true);
 }
 
-void moveBackwards(double cm, double speed, bool stopping){
-  leftFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
-  rightFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
-  leftBack.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
-  rightBack.spinFor(reverse, cm, rev, speed, velocityUnits::pct, stopping);
-}
-
 void turnRight(double degree, double speed){
   leftFWD.spin(forward, speed, pct);
   rightFWD.spin(reverse, speed, pct);
@@ -108,7 +108,6 @@ void turnRight(double degree, double speed){
     difference=  degree - turnInertial.rotation();
     task::sleep(20);
   }
-  Controller1.Screen.print("DONE");
   leftFWD.spin(forward, speed*0.1, pct);
   rightFWD.spin(reverse, speed*0.1, pct);
   leftBack.spin(forward, speed*0.1, pct);
@@ -120,21 +119,26 @@ void turnRight(double degree, double speed){
   rightBack.stop();
 }
 
-void turnLeft(double degree){
-  tright = degree * (335/90);//Sets the transvertion factors
-  tleft  = degree * (335/90) * -1;
-  leftFWD.setVelocity(100, rpm);
-  leftBack.setVelocity(100, rpm);
-  rightFWD.setVelocity(100, rpm);
-  rightBack.setVelocity(100, rpm);
-  leftFWD.spinFor(tleft, vex::rotationUnits::deg, false);//spins the motor
-  leftBack.spinFor(tleft, vex::rotationUnits::deg, false);
-  rightFWD.spinFor(tright, vex::rotationUnits::deg, false);
-  rightBack.spinFor(tright, vex::rotationUnits::deg, false);
-  leftFWD.setVelocity(200, rpm);
-  leftBack.setVelocity(200, rpm);
-  rightFWD.setVelocity(200, rpm);
-  rightBack.setVelocity(200, rpm);
+void turnLeft(double degree, double speed){
+  leftFWD.spin(reverse, speed, pct);
+  rightFWD.spin(forward, speed, pct);
+  leftBack.spin(reverse, speed, pct);
+  rightBack.spin(forward, speed, pct);
+  task::sleep(200);
+  double difference=  degree - std::abs(turnInertial.rotation());
+  while(difference>65){
+    difference=  degree - std::abs(turnInertial.rotation());
+    task::sleep(20);
+  }
+  leftFWD.spin(reverse, speed*0.1, pct);
+  rightFWD.spin(forward, speed*0.1, pct);
+  leftBack.spin(reverse, speed*0.1, pct);
+  rightBack.spin(forward, speed*0.1, pct);
+  waitUntil(std::abs(turnInertial.rotation()) > (degree-2));
+  leftFWD.stop();
+  rightFWD.stop();
+  leftBack.stop();
+  rightBack.stop();
 }
 
 void oneBarChecker(){
@@ -147,8 +151,11 @@ void oneBarChecker(){
 void cubeRampVertical (bool degree, double speed){
   cubeRamp.setVelocity(speed, rpm);//sets the velocity to the specified 
   if(degree == true){
-    cubeRamp.spin(forward);//Spins motor Forward
-    waitUntil(cubeRamp.rotation(rev)> 2.7);//Waits until the bumper is pressed
+    double speeds;
+    while(cubeRamp.rotation(rev)<3.5){
+      speeds = (cubeRamp.rotation(rev)*-26)+100;
+      cubeRamp.spin(forward, speeds, pct);
+    }
     cubeRamp.stop();//Stops the mmotor
   }else if (degree == false) {
     cubeRamp.spin(reverse);//moves the motor backwards
@@ -259,16 +266,15 @@ int redAutonBottom(){
 }
 
 int blueAutonBottom(){
-//  intake(100);
-//  oneBarUp(45, 100, true);
-//  oneBarUp(-45, 100, true);
-  moveForward(110, 10, true);
-//  intake(0);
-//  moveBackwards(54, 50, true);
-//  turnLeft(180);
-//  moveForward(63.5, 10, true);
-//  intake(0);
-//  stack();
+  intake(170);
+  moveForward(4.2, 30, true);
+  intake(-50);
+  wait(0.5, seconds);
+  intake(0);
+  moveBackwards(1.6, 60, true);
+  turnRight(135, 60);
+  moveForward(2.2, 60, true);
+  stack();
   return 1;
 }
 
