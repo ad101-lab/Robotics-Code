@@ -2,21 +2,18 @@
 using namespace vex;
 
 void pre_auton(void) {
-  task userControls(userControl);
-  motorHold(true);
-  task pickAutonmous(pickAuton);
 }
 
 void autonomous(void) {
-  userControlEnabled=false;
-  //flipOut();
-  //runAuton();
-  redAutonBottom();
-  //moveForward(, int speed)
 }
 
 void usercontrol(void) {//User Control
-  userControlEnabled = true;
+  while(1){
+    printRevs = (rightBack.rotation(rev)+leftBack.rotation(rev))/2;
+    Controller1.Screen.setCursor(1, 1);
+    Controller1.Screen.clearScreen();
+    Controller1.Screen.print(printRevs);
+  }
 }
 
 int main() {

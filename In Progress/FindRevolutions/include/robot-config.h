@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <cmath>
 
 #include "v5.h"
 #include "v5_vcs.h"
@@ -60,8 +59,10 @@ bool autonSide = false;
 bool autonColor;
 bool userControlEnabled = false;
 std::string tower;
+double printRevs;
 
 void moveForward(double cm, double speed, bool stopping){
+  degree = (cm/32) * 375;//Transfer to the degrees
   leftFWD.spinFor(forward, cm, rev, speed, velocityUnits::pct, false);
   rightFWD.spinFor(forward, cm, rev, speed, velocityUnits::pct, false);
   leftBack.spinFor(forward, cm, rev, speed, velocityUnits::pct, false);
@@ -81,10 +82,12 @@ void turnRight(double degree, double speed){
   leftBack.spin(forward, speed, pct);
   rightBack.spin(reverse, speed, pct);
   task::sleep(200);
-  double difference=  degree - std::abs(turnInertial.rotation());
+  double difference=  degree - turnInertial.rotation();
   while(difference>30){
-    difference=  degree - std::abs(turnInertial.rotation());
+    difference=  degree - turnInertial.rotation();
     task::sleep(50);
+    float hi = turnInertial.rotation();
+    Controller1.Screen.print(hi);
   }
   leftFWD.spin(forward, speed*0.2, pct);
   rightFWD.spin(reverse, speed*0.2, pct);
@@ -144,9 +147,8 @@ void intake (double speed){
 }
 
 int stack(){
-  cubeRampVertical(true, 60);//Move the cube ramp up
-  moveBackwards(20, 100, false);//Back away
-  intake(-100);
+  cubeRampVertical(true, 70);//Move the cube ramp up
+  moveBackwards(40, 30, false);//Back away
   cubeRampVertical(false, 100);//Puts the cube ramp down
   intake(0);//Stops the intake
   return 1;
@@ -212,12 +214,12 @@ void flipOut(){
 }
 
 int redAutonBottom(){
-  intake(170);
-  moveForward(4.2, 30, true);
-  intake(0);
-  moveBackwards(1.7, 60, true);
-  turnRight(135, 60);
-  moveForward(2.2, 60, true);
+  moveForward(110, 50, true);
+  //intake(0);
+  //moveForward(-54, 100, true);
+  //turnRight(180);
+  //moveForward(63.5, 10, true);
+  //intake(0);
   //stack();
   return 1;
 }
