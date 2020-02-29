@@ -30,9 +30,9 @@ int userControl(){
         intakeValue = -50;//sets cube ramp to -50 RPM
       }else if(Controller1.ButtonB.pressing()){//if button is pressing it will
         intakeValue = 45;//sets cube ramp to 45 RPM
-      } /*else if(Controller2.ButtonY.pressing()){//if button is pressing it will
+      } else if(Controller2.ButtonY.pressing()){//if button is pressing it will
         task stacking(stack);//Stacks
-      }*/ else {//If no other conditions are true
+      } else {//If no other conditions are true
         intakeValue = 0;//sets cube ramp to -100 RPM
       }
       if(Controller2.ButtonUp.pressing() and !(oneBar.rotation(rev)>2.3)){
@@ -55,9 +55,9 @@ int userControl(){
       } else{
       turnValue = 1;
       }
-      if(Controller2.ButtonY.pressing()){
+      /*if(Controller2.ButtonY.pressing()){
         resetEncoders();
-      }
+      }*/
       if (Controller2.ButtonX.pressing()){
         oneBarTower("mid", true);
       } else if (Controller2.ButtonB.pressing()) {

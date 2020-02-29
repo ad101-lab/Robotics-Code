@@ -68,6 +68,28 @@ void moveForward(double cm, double speed, bool stopping){
   rightBack.spinFor(forward, cm, rev, speed, velocityUnits::pct, stopping);
 } 
 
+void moveForwardAccurate(double cm, double speed){
+  leftFWD.spinFor(forward, cm-1, rev, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, cm-1, rev, speed, velocityUnits::pct, false);
+  leftBack.spinFor(forward, cm-1, rev, speed, velocityUnits::pct, false);
+  rightBack.spinFor(forward, cm-1, rev, speed, velocityUnits::pct, true);
+  leftFWD.spinFor(forward, cm-0.1, rev, speed*0.1, velocityUnits::pct, false);
+  rightFWD.spinFor(forward, cm-0.1, rev, speed*0.1, velocityUnits::pct, false);
+  leftBack.spinFor(forward, cm-0.1, rev, speed*0.1, velocityUnits::pct, false);
+  rightBack.spinFor(forward, cm-0.1, rev, speed*0.1, velocityUnits::pct, true);
+}
+
+void moveBackwardsAccurate(double cm, double speed){
+  leftFWD.spinFor(reverse, cm-1, rev, speed, velocityUnits::pct, false);
+  rightFWD.spinFor(reverse, cm-1, rev, speed, velocityUnits::pct, false);
+  leftBack.spinFor(reverse, cm-1, rev, speed, velocityUnits::pct, false);
+  rightBack.spinFor(reverse, cm-1, rev, speed, velocityUnits::pct, true);
+  leftFWD.spinFor(reverse, cm-0.1, rev, speed*0.1, velocityUnits::pct, false);
+  rightFWD.spinFor(reverse, cm-0.1, rev, speed*0.1, velocityUnits::pct, false);
+  leftBack.spinFor(reverse, cm-0.1, rev, speed*0.1, velocityUnits::pct, false);
+  rightBack.spinFor(reverse, cm-0.1, rev, speed*0.1, velocityUnits::pct, true);
+}
+
 void moveBackwards(double cm, double speed, bool stopping){
   leftFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
   rightFWD.spinFor(reverse, cm, rev, speed, velocityUnits::pct, false);
@@ -153,6 +175,7 @@ int stack(){
       intake(-100);
     }
   }
+  moveForward(5, 50, true);
   intake(0);
   cubeRamp.spin(reverse);//Puts the cube ramp down
   waitUntil(cubeRamp.rotation(rev)<0);
@@ -228,10 +251,10 @@ int redAutonBottom(){
   intake(-50);
   wait(0.5, seconds);
   intake(0);
-  moveBackwards(1.7, 60, true);
+  moveBackwards(1.6, 60, true);
   turnRight(135, 60);
   moveForward(2.2, 60, true);
-  //stack();
+  stack();
   return 1;
 }
 
