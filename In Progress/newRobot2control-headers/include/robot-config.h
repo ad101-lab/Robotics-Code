@@ -82,15 +82,16 @@ void turnRight(double degree, double speed){
   rightBack.spin(reverse, speed, pct);
   task::sleep(200);
   double difference=  degree - std::abs(turnInertial.rotation());
-  while(difference>30){
-    difference=  degree - std::abs(turnInertial.rotation());
-    task::sleep(50);
+  while(difference>65){
+    difference=  degree - turnInertial.rotation();
+    task::sleep(20);
   }
-  leftFWD.spin(forward, speed*0.2, pct);
-  rightFWD.spin(reverse, speed*0.2, pct);
-  leftBack.spin(forward, speed*0.2, pct);
-  rightBack.spin(reverse, speed*0.2, pct);
-  waitUntil(turnInertial.rotation() < (degree-2));
+  Controller1.Screen.print("DONE");
+  leftFWD.spin(forward, speed*0.1, pct);
+  rightFWD.spin(reverse, speed*0.1, pct);
+  leftBack.spin(forward, speed*0.1, pct);
+  rightBack.spin(reverse, speed*0.1, pct);
+  waitUntil(turnInertial.rotation() > (degree-2));
   leftFWD.stop();
   rightFWD.stop();
   leftBack.stop();
@@ -214,6 +215,8 @@ void flipOut(){
 int redAutonBottom(){
   intake(170);
   moveForward(4.2, 30, true);
+  intake(-50);
+  wait(0.5, seconds);
   intake(0);
   moveBackwards(1.7, 60, true);
   turnRight(135, 60);
@@ -292,7 +295,8 @@ void runAuton(){
 
 void calibrateInertial(){
   turnInertial.calibrate();
-  while(turnInertial.isCalibrating){
-    task::sleep(300);
+  // waits for Inertial Sensor to calibrate 
+  while (turnInertial.isCalibrating()) {
+    wait(100, msec);
   }
 }

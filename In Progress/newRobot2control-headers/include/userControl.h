@@ -15,7 +15,7 @@ int userControl(){
       rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
       leftBack.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
       if (Controller2.ButtonL1.pressing() and !(cubeRamp.rotation(rev)>2.7)){//if button is pressing it will
-        cubeRampValue = (-31*(cubeRamp.rotation(rev)))+100;//sets cube ramp to 85 RPM
+        cubeRampValue = (-26*(cubeRamp.rotation(rev)))+100;//sets cube ramp to 85 RPM
      } else if (Controller2.ButtonL2.pressing() and !(cubeRamp.rotation(rev)<0)) {//if button is pressing it will
        cubeRampValue = -100;//sets cube ramp to -100 RPM
       } else {//if no others are true
@@ -25,7 +25,7 @@ int userControl(){
       if (Controller1.ButtonR1.pressing()){//if button is pressing it will
         intakeValue = 100;//sets cube ramp to 100 RPM
       } else if (Controller1.ButtonR2.pressing()) {//if button is pressing it will
-        intakeValue = -200;//sets cube ramp to -200 RPM
+        intakeValue = -150;//sets cube ramp to -200 RPM
       } else if (Controller1.ButtonA.pressing()){//if button is pressing it will
         intakeValue = -50;//sets cube ramp to -50 RPM
       }else if(Controller1.ButtonB.pressing()){//if button is pressing it will

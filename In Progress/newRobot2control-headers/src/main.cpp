@@ -4,15 +4,15 @@ using namespace vex;
 void pre_auton(void) {
   task userControls(userControl);
   motorHold(true);
-  task pickAutonmous(pickAuton);
+  calibrateInertial();
+  //task pickAutonmous(pickAuton);
 }
 
 void autonomous(void) {
+  calibrateInertial();
   userControlEnabled=false;
-  //flipOut();
-  //runAuton();
   redAutonBottom();
-  //moveForward(, int speed)
+  //runAuton();
 }
 
 void usercontrol(void) {//User Control
