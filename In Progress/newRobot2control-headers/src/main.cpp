@@ -2,20 +2,22 @@
 using namespace vex;
 
 void pre_auton(void) {
+  userControlEnabled = false;
   task userControls(userControl);
   motorHold(true);
   calibrateInertial();
-  task pickAutonmous(pickAuton);
+  //task pickAutonmous(pickAuton);
 }
 
 void autonomous(void) {
-  calibrateInertial();
+  //calibrateInertial();
   userControlEnabled=false;
-  redAutonBottom();
+  runAuton();
   //runAuton();
 }
 
 void usercontrol(void) {//User Control
+  //task showHUD(HUD);
   userControlEnabled = true;
 }
 

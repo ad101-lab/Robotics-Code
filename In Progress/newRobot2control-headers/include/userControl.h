@@ -9,7 +9,7 @@
 
 int userControl(){
   while (1){
-    while (userControlEnabled) {
+    if (userControlEnabled) {
       rightFWD.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);//Tank Drive controls
       leftFWD.spin(forward, (Controller1.Axis3.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
       rightBack.spin(forward, (Controller1.Axis2.position()/ turnValue)/baseRPM , vex::velocityUnits::pct);
@@ -69,7 +69,7 @@ int userControl(){
       wait(20, msec); // Sleep the task for a short amount of time to
       Brain.Screen.print(oneBar.rotation(rev));
     }
-    task::sleep(500);
+    task::sleep(50);
   }
   return 1;
 }

@@ -59,6 +59,7 @@ double oneBarRotation;
 bool autonSide = false;
 bool autonColor;
 bool userControlEnabled = false;
+bool HUDenabled = false;
 std::string tower;
 
 void moveForward(double cm, double speed, bool stopping){
@@ -355,4 +356,30 @@ void resetEncoders(){
   cubeRamp.resetPosition();
   intakeLeft.resetPosition();
   intakeRight.resetPosition();
+}
+
+
+int HUD(){
+  while(HUDenabled){
+    int cap = Brain.Battery.capacity();
+    int timeInMatch = 105;
+    int intakeTemp;
+    while(1){
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.setCursor(1, 1);
+      Controller1.Screen.print("Time: ");
+      Controller1.Screen.print(timeInMatch);
+      Controller1.Screen.setCursor(2, 1);
+      Controller1.Screen.print("Battery: ");
+      Controller1.Screen.print(cap);
+      Controller1.Screen.setCursor(3, 1);
+      Controller1.Screen.print("Intake Temp: ");
+      Controller1.Screen.print(intakeTemp);
+      task::sleep(1000);
+      cap = Brain.Battery.capacity();
+      timeInMatch = timeInMatch - 1;
+      intakeTemp = (intakeLeft.temperature()+ intakeRight.temperature())/2;
+    }
+  }
+  return 1;
 }
